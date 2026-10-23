@@ -163,10 +163,8 @@
   "The microphone isn't available. In Settings, turn on “Microphone” for Arc Lecture Transcriber (Arc 강의 받아쓰기).": "麦克风不可用。请在“设置”中为 Arc Lecture Transcriber（Arc 강의 받아쓰기）打开“麦克风”。",
   "No sound for 20 seconds. Make sure your {0} can hear the lecture.": "已有 20 秒未检测到声音。请确保 {0} 能听到讲课声音。",
   "No sound is coming in yet. Play the lecture video. ": "尚未检测到声音。请播放课程视频。",
-  "If this message keeps appearing while the video is playing, allow Arc Lecture Transcriber (Arc 강의 받아쓰기) in the “System Audio Recording” permission.": "如果视频正在播放，此提示却仍反复出现，请在“系统录音”权限中允许 Arc Lecture Transcriber（Arc 강의 받아쓰기）。",
   "Restarting the engine.": "正在重新启动引擎。",
   "No sound for 20 seconds. Make sure the lecture video is playing. ": "已有 20 秒未检测到声音。请确认课程视频正在播放。",
-  "If you're using the app for the first time, you need to allow Arc Lecture Transcriber (Arc 강의 받아쓰기) in the “System Audio Recording” permission.": "首次使用时，需要在“系统录音”权限中允许 Arc Lecture Transcriber（Arc 강의 받아쓰기）。",
   "Couldn't capture this Mac's sound. Check the “System Audio Recording” permission.": "无法获取这台 Mac 的声音。请检查“系统录音”权限。",
   "{0} key words saved": "已保存 {0} 个关键词",
   "All key words deleted.": "已删除所有关键词。",
@@ -482,7 +480,17 @@
   "Apple's speech recognition keeps failing on this Mac, so the rest of this lecture is recorded but not transcribed. After turning on Siri and Dictation (Keyboard) in System Settings, or downloading the Whisper engine in Settings › Speech Recognition, you can transcribe this recording with Open File…": "这台 Mac 上的 Apple 语音识别反复失败，因此本讲座余下部分只录音、不转写。在“系统设置”中打开 Siri 和“听写”（键盘），或在“设置 › 语音识别”中下载 Whisper 引擎后，可以用“打开文件…”转写这段录音。",
   "Speech Recognition is turned off for this app, so this file can't be transcribed. Turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) in System Settings › Privacy & Security › Speech Recognition, then try again.": "此 App 的“语音识别”权限已关闭，因此无法转写这个文件。请在“系统设置” › “隐私与安全性” › “语音识别”中打开 Arc Lecture Transcriber（Arc 강의 받아쓰기），然后重试。",
   "Apple's speech recognition isn't available on this Mac, so this file can't be transcribed. Turn on Siri and Dictation (Keyboard) in System Settings so this language downloads, or download the Whisper engine in Settings › Speech Recognition, then try again.": "这台 Mac 无法使用 Apple 语音识别，因此无法转写这个文件。请在“系统设置”中打开 Siri 和“听写”（键盘），让这种语言下载完成，或在“设置 › 语音识别”中下载 Whisper 引擎，然后重试。",
-  "No sound is coming in. If the lecture video has no sound, that's fine — its slides are still collected into the PDF. If it does have sound, allow Arc Lecture Transcriber (Arc 강의 받아쓰기) in the “System Audio Recording” permission.": "没有声音传入。如果讲座视频本来就没有声音，没关系——幻灯片仍会收集到 PDF 中。如果视频有声音，请在“系统录音”权限中允许 Arc Lecture Transcriber（Arc 강의 받아쓰기）。",
-  "This file has no sound, so it can't be transcribed. If it's a video, turn on Slide PDF and open it again to collect its slides into a PDF.": "此文件没有声音，因此无法转写。如果它是视频，请打开“幻灯片 PDF”后重新打开此文件，即可把它的幻灯片收集到 PDF 中。"
+  "This file has no sound, so it can't be transcribed. If it's a video, turn on Slide PDF and open it again to collect its slides into a PDF.": "此文件没有声音，因此无法转写。如果它是视频，请打开“幻灯片 PDF”后重新打开此文件，即可把它的幻灯片收集到 PDF 中。",
+  "Choose Window": "选择窗口",
+  "No lecture window was chosen, so this is being transcribed without slides. To collect slides, click Choose Window and pick the lecture window.": "未选择课程窗口，因此正在不收集幻灯片的情况下转写。要收集幻灯片，请点按“选择窗口”并选择课程窗口。",
+  "Slide PDF: macOS didn't allow the lecture window to be captured, so no slides are being collected. Transcription continues.": "幻灯片 PDF：macOS 未允许捕获课程窗口，因此没有在收集幻灯片。转写将继续。",
+  "Slide PDF: macOS couldn't open its window picker, so no slides are being collected. Transcription continues.": "幻灯片 PDF：macOS 无法打开窗口选择器，因此没有在收集幻灯片。转写将继续。",
+  "Slide PDF: the window picker didn't appear, or no lecture window has been chosen yet, so no slides are being collected. Transcription continues.": "幻灯片 PDF：窗口选择器没有出现，或尚未选择课程窗口，因此没有在收集幻灯片。转写将继续。",
+  "Click Choose Window and pick the lecture window.": "点按“选择窗口”，然后选择课程窗口。",
+  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording” (macOS 14: “Screen Recording”).": "如果仍然不行，请点按“打开隐私设置”，然后在“隐私与安全”›“录屏与系统录音”（macOS 14 中为“录屏”）中打开 Arc Lecture Transcriber（Arc 강의 받아쓰기）。",
+  "Quit Arc Lecture Transcriber and open it again (or click “Quit & Reopen” when macOS asks), then click Start. Quitting saves everything recorded so far.": "退出 Arc Lecture Transcriber 并重新打开（或在 macOS 询问时点按“退出并重新打开”），然后点按“开始”。退出时，此前录制的所有内容都会被保存。",
+  "Click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording” › “System Audio Recording Only”.": "点按“打开隐私设置”，然后在“隐私与安全”›“录屏与系统录音”›“仅系统录音”中打开 Arc Lecture Transcriber（Arc 강의 받아쓰기）。",
+  "If this message keeps appearing while the video is playing:": "如果视频正在播放，此提示却仍反复出现：",
+  "No sound is coming in. If the lecture video has no sound, that's fine — its slides are still collected into the PDF. If it does have sound:": "没有声音传入。如果课程视频本身没有声音，这没有关系——幻灯片仍会收集到 PDF 中。如果视频有声音："
  }
 };
