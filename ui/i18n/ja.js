@@ -487,10 +487,10 @@
   "Slide PDF: macOS couldn't open its window picker, so no slides are being collected. Transcription continues.": "スライドPDF：macOSがウインドウの選択画面を開けなかったため、スライドを収集できていません。文字起こしは続いています。",
   "Slide PDF: the window picker didn't appear, or no lecture window has been chosen yet, so no slides are being collected. Transcription continues.": "スライドPDF：ウインドウの選択画面が表示されなかったか、まだ講義のウインドウが選ばれていないため、スライドを収集できていません。文字起こしは続いています。",
   "Click Choose Window and pick the lecture window.": "“ウインドウを選択”をクリックして、講義のウインドウを選んでください。",
-  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording” (macOS 14: “Screen Recording”).": "それでもうまくいかない場合は、“プライバシー設定を開く”をクリックし、“プライバシーとセキュリティ” › “画面収録とシステムオーディオ録音”（macOS 14では“画面収録”）でArc Lecture Transcriberをオンにしてください。",
   "Quit Arc Lecture Transcriber and open it again (or click “Quit & Reopen” when macOS asks), then click Start. Quitting saves everything recorded so far.": "Arc Lecture Transcriberを終了してもう一度開き（macOSに聞かれたら“終了して再度開く”をクリックしてもかまいません）、“開始”をクリックしてください。終了しても、それまでに録音した内容は保存されます。",
   "Click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording” › “System Audio Recording Only”.": "“プライバシー設定を開く”をクリックし、“プライバシーとセキュリティ” › “画面収録とシステムオーディオ録音” › “システムオーディオ録音のみ”でArc Lecture Transcriberをオンにしてください。",
   "If this message keeps appearing while the video is playing:": "動画を再生しているのにこのメッセージが表示され続ける場合：",
-  "No sound is coming in. If the lecture video has no sound, that's fine — its slides are still collected into the PDF. If it does have sound:": "音が入ってきていません。講義動画に音がない場合は問題ありません。スライドはそのままPDFに収集されます。音がある場合："
+  "No sound is coming in. If the lecture video has no sound, that's fine — its slides are still collected into the PDF. If it does have sound:": "音が入ってきていません。講義動画に音がない場合は問題ありません。スライドはそのままPDFに収集されます。音がある場合：",
+  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”.": "それでもうまくいかない場合は、“プライバシー設定を開く”をクリックし、“プライバシーとセキュリティ” › “画面収録とシステムオーディオ録音”でArc Lecture Transcriberをオンにしてください。"
  }
 };

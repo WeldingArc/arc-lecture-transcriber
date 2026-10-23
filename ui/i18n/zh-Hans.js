@@ -487,10 +487,10 @@
   "Slide PDF: macOS couldn't open its window picker, so no slides are being collected. Transcription continues.": "幻灯片 PDF：macOS 无法打开窗口选择器，因此没有在收集幻灯片。转写将继续。",
   "Slide PDF: the window picker didn't appear, or no lecture window has been chosen yet, so no slides are being collected. Transcription continues.": "幻灯片 PDF：窗口选择器没有出现，或尚未选择课程窗口，因此没有在收集幻灯片。转写将继续。",
   "Click Choose Window and pick the lecture window.": "点按“选择窗口”，然后选择课程窗口。",
-  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording” (macOS 14: “Screen Recording”).": "如果仍然不行，请点按“打开隐私设置”，然后在“隐私与安全”›“录屏与系统录音”（macOS 14 中为“录屏”）中打开 Arc Lecture Transcriber（Arc 강의 받아쓰기）。",
   "Quit Arc Lecture Transcriber and open it again (or click “Quit & Reopen” when macOS asks), then click Start. Quitting saves everything recorded so far.": "退出 Arc Lecture Transcriber 并重新打开（或在 macOS 询问时点按“退出并重新打开”），然后点按“开始”。退出时，此前录制的所有内容都会被保存。",
   "Click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording” › “System Audio Recording Only”.": "点按“打开隐私设置”，然后在“隐私与安全”›“录屏与系统录音”›“仅系统录音”中打开 Arc Lecture Transcriber（Arc 강의 받아쓰기）。",
   "If this message keeps appearing while the video is playing:": "如果视频正在播放，此提示却仍反复出现：",
-  "No sound is coming in. If the lecture video has no sound, that's fine — its slides are still collected into the PDF. If it does have sound:": "没有声音传入。如果课程视频本身没有声音，这没有关系——幻灯片仍会收集到 PDF 中。如果视频有声音："
+  "No sound is coming in. If the lecture video has no sound, that's fine — its slides are still collected into the PDF. If it does have sound:": "没有声音传入。如果课程视频本身没有声音，这没有关系——幻灯片仍会收集到 PDF 中。如果视频有声音：",
+  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”.": "如果仍然不行，请点按“打开隐私设置”，然后在“隐私与安全”›“录屏与系统录音”中打开 Arc Lecture Transcriber（Arc 강의 받아쓰기）。"
  }
 };

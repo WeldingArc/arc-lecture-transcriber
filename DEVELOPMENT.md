@@ -115,7 +115,9 @@ and the app refuses to record in it — a recording would make macOS fetch the r
 lectures without the Korean model, as for someone with no Korean on the device), `LECTURE_TEST_NEW_USER=1` (a first launch
 as on a Mac without ~/Downloads/강의기록 — with `-AppleLanguages '(ru-RU)'` as launch arguments for the device's language), `LECTURE_TEST_SNAP=<sec,sec,…>` (WebKit's own
 picture of the page at those seconds into `LECTURE_OUT_DIR`: no screen access needed), `LECTURE_FAKE_SCREEN=<video>` (a video
-plays the lecture window for 슬라이드 PDF, in real time, instead of the picker), `LECTURE_CLEAN_CAPTURE=0|1`. Any
+plays the lecture window for 슬라이드 PDF, in real time, instead of the picker), `LECTURE_TEST_PICKER=silent|cancel|fail|denied`
+(how macOS's window picker answers — never / cancelled / couldn't open / capture refused; the page's 창 다시 고르기 then
+plays `LECTURE_FAKE_SCREEN`), `LECTURE_TEST_PICK_WAIT=<sec>` (how long until "no window chosen" — 20 s), `LECTURE_CLEAN_CAPTURE=0|1`. Any
 `LECTURE_TEST_*` skips the first-run notice. `OUT=<dir> DIST=<dir> scripts/build_v2.sh` builds elsewhere. CLI: `--live <sec> --pause-at <sec> --pause-for <sec>` pauses a test recording.
 
 The UI runs in a normal browser as a demo (no sound): `ui/index.html?shot`, `?shot=saved|keywords|library|detail|playing|slides|find`

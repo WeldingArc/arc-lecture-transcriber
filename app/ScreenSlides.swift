@@ -107,13 +107,16 @@ final class ScreenSlides: NSObject, SCContentSharingPickerObserver, SCStreamOutp
             return
         }
         stream = s
+        let id = ObjectIdentifier(s)
         s.startCapture { [weak self] error in
-            guard let error else { return }
-            log("slides: capture failed: \(error)")
-            let declined = (error as NSError).domain == SCStreamErrorDomain && (error as NSError).code == SCStreamError.Code.userDeclined.rawValue
-            Task { @MainActor in
-                guard let self else { return }
-                if declined {                                            // macOS refused: how to allow it, and pick again
+            if let error { log("slides: capture failed: \(error)") }
+            let ok = error == nil
+            let declined = (error as NSError?).map { $0.domain == SCStreamErrorDomain && $0.code == SCStreamError.Code.userDeclined.rawValue } ?? false
+            Task { @MainActor in                                         // stopped or switched to another window meanwhile: old news
+                guard let self, self.active, self.stream.map(ObjectIdentifier.init) == id else { return }
+                if ok {                                                  // said only once frames can come
+                    self.onNote?("slides_on", L("슬라이드를 모으고 있습니다. 바뀔 때마다 한 장씩 PDF에 담습니다.", "Collecting slides. Each time the slide changes, it's added to the PDF as a page."))
+                } else if declined {                                     // macOS refused: how to allow it, and pick again
                     self.stream = nil
                     self.onNote?("slides_denied", "")
                 } else {
@@ -122,7 +125,6 @@ final class ScreenSlides: NSObject, SCContentSharingPickerObserver, SCStreamOutp
             }
         }
         log("slides: watching \(cfg.width)×\(cfg.height)")
-        onNote?("slides_on", L("슬라이드를 모으고 있습니다. 바뀔 때마다 한 장씩 PDF에 담습니다.", "Collecting slides. Each time the slide changes, it's added to the PDF as a page."))
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             MainActor.assumeIsolated { if let self, let img = self.latest.take() { self.onFrame?(img) } }
