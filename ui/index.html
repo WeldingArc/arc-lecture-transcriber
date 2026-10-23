@@ -649,10 +649,12 @@
   .notice.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
   .notice .acts { margin-top: 12px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; flex: none; }
   .notice .steps {                                                /* what to do, step by step: read left to right */
-    margin: 10px 0 0; min-height: 0; overflow-y: auto; padding: 12px 16px 12px 36px; border-radius: 12px; text-align: left;
+    margin: 10px 0 0; min-height: 0; overflow-y: auto; overflow-x: hidden; overflow-wrap: anywhere;
+    padding: 12px 16px 12px 36px; border-radius: 12px; text-align: left;
     background: rgba(var(--tint-rgb), 0.05); font-size: 13.5px; line-height: 1.65; color: var(--ink-2);
   }
   .notice .steps[hidden] { display: none; }
+  html:lang(zh-Hans) .notice, html:lang(zh-Hant) .notice, html:lang(ja) .notice { word-break: normal; }   /* no spaces to keep */
   .notice .steps::-webkit-scrollbar { width: 6px; }                /* more steps below: a scrollbar that stays */
   .notice .steps::-webkit-scrollbar-thumb { border-radius: 3px; background: rgba(var(--tint-rgb), 0.28); }
   .notice .steps li + li { margin-top: 6px; }
@@ -1969,7 +1971,8 @@
       b.onclick = () => {
         const was = noticeCode;
         $("notice").classList.remove("show");
-        if (fn) fn(); else if (was.startsWith("slides_")) showSoundNotice();   // closed: what waited behind it
+        if (fn) fn();
+        if (was.startsWith("slides_")) showSoundNotice();               // the guide is gone: what waited behind it
       };
       acts.appendChild(b);
     }
@@ -2006,9 +2009,16 @@
   }
   function showSoundNotice() {
     if (!soundNotice || state.rec !== "recording") { soundNotice = null; return; }
-    const ev = soundNotice;
+    const ev = soundNotice, rec = state.idBase;
     soundNotice = null;
-    setTimeout(() => window.app.receive(ev), 700);                    // after the guide has faded
+    setTimeout(() => {                                                 // after the guide has faded — if it still holds:
+      if (state.rec !== "recording" || state.idBase !== rec) return;   // the same recording, still going,
+      if (body.classList.contains("has-text")) return;                 // no sound since (lines came in),
+      const up = $("notice").classList.contains("show");
+      if (up && noticeCode.startsWith("slides_")) { soundNotice = ev; return; }   // a new guide: behind it again
+      if (up) return;                                                  // another notice is up: it stays
+      window.app.receive(ev);
+    }, 700);
   }
   function setStatus(text) { $("status").textContent = text; }
 
@@ -3146,7 +3156,6 @@
         if (!ev.replay) Object.assign(state, { paused: false, pausedTotal: 0, pausedSince: 0 });   // a reload: "paused" follows
         live.hide();
         if (!noticeCode.startsWith("speech_")) $("notice").classList.remove("show");   // why it isn't transcribing stays
-        slidesOn = false; soundNotice = null;
         setStatus(recStatus());
         $("timer").textContent = state.mode === "file" ? "0%" : "00:00";
         clearInterval(state.timer);
@@ -3162,6 +3171,7 @@
         clearInterval(state.timer);
         live.hide();
         state.paused = false;
+        slidesOn = false; soundNotice = null;
         $("timer").textContent = "";
         $("meter").style.transform = "scaleX(0)";
         setStatus(state.engine === "ready" ? readyText() : L("엔진 준비 중", "Getting the engine ready"));
@@ -3280,6 +3290,7 @@
         if ($("notice").classList.contains("show") && ["no_input", "no_audio"].includes(noticeCode)) soundNotice = soundEv;
         slidesNotice(ev.code);
       } else if (["slides_on", "slides_note", "slides_missing"].includes(ev.code)) {
+        if (ev.code !== "slides_on") slidesOn = false;                 // the window closed / the capture failed
         if (ev.code === "slides_on") {
           slidesOn = true;
           if (noticeCode.startsWith("slides_")) $("notice").classList.remove("show");   // a window was chosen
