@@ -61,10 +61,10 @@ scripts/build_transcribe.sh  builds transcribe.cpp (pinned tag) into one self-co
 ### Build
 
 ```bash
-scripts/build_v2.sh                 # ad-hoc signed → build/v2/Arc 강의 받아쓰기.app, dist/v2/LectureScribe-mac.zip
+scripts/build_v2.sh                 # ad-hoc signed → build/v2/Arc Lecture Transcriber.app, dist/v2/LectureScribe-mac.zip
 SIGN_ID="Developer ID Application: NAME (TEAMID)" scripts/build_v2.sh     # for GitHub, then notarize:
 xcrun notarytool submit dist/v2/LectureScribe-mac.zip --keychain-profile PROFILE --wait
-xcrun stapler staple "build/v2/Arc 강의 받아쓰기.app"                           # and zip again
+xcrun stapler staple "build/v2/Arc Lecture Transcriber.app"                    # and zip again
 ```
 
 The script needs only the Command Line Tools. For signed builds and the App Store use Xcode

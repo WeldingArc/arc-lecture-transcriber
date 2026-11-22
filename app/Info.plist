@@ -5,8 +5,8 @@
 	<key>CFBundleDevelopmentRegion</key><string>en</string>
 	<key>CFBundleLocalizations</key><array><string>ko</string><string>en</string><string>zh-Hans</string><string>zh-Hant</string><string>ja</string><string>es</string><string>fr</string><string>de</string><string>pt-BR</string><string>it</string><string>vi</string><string>ru</string></array>
 	<key>LSHasLocalizedDisplayName</key><true/>
-	<key>CFBundleName</key><string>Arc 강의 받아쓰기</string>
-	<key>CFBundleDisplayName</key><string>Arc 강의 받아쓰기</string>
+	<key>CFBundleName</key><string>Arc Lecture Transcriber</string>
+	<key>CFBundleDisplayName</key><string>Arc Lecture Transcriber</string>
 	<key>CFBundleIdentifier</key><string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleExecutable</key><string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIconFile</key><string>AppIcon</string>
@@ -17,11 +17,11 @@
 	<key>LSMinimumSystemVersion</key><string>14.2</string>
 	<key>LSApplicationCategoryType</key><string>public.app-category.productivity</string>
 	<key>NSHighResolutionCapable</key><true/>
-	<key>NSAudioCaptureUsageDescription</key><string>강의 영상의 말소리를 받아 적기 위해 이 Mac에서 재생되는 소리를 녹음합니다. 마이크는 사용하지 않습니다.</string>
-	<key>NSSpeechRecognitionUsageDescription</key><string>녹음한 강의를 이 Mac 안에서 글로 받아 적습니다. 소리와 글은 밖으로 보내지 않습니다.</string>
+	<key>NSAudioCaptureUsageDescription</key><string>Records the sound playing on this Mac so the lecture can be transcribed. The microphone is not used.</string>
+	<key>NSSpeechRecognitionUsageDescription</key><string>Transcribes recorded lectures on this Mac. Sound and text never leave it.</string>
 	<key>NSSupportsAutomaticTermination</key><false/>
 	<key>NSSupportsSuddenTermination</key><false/>
 	<key>ITSAppUsesNonExemptEncryption</key><false/>
-	<key>NSHumanReadableCopyright</key><string>© 2026 Jun Hyuk Choi · MIT License · Apple 온디바이스 음성 인식</string>
+	<key>NSHumanReadableCopyright</key><string>© 2026 Jun Hyuk Choi · MIT License · Apple on-device speech recognition</string>
 </dict>
 </plist>

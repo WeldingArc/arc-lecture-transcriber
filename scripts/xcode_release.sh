@@ -15,7 +15,7 @@ cd "$ROOT"
 export DEVELOPER_DIR="${DEVELOPER_DIR:-/Applications/Xcode.app/Contents/Developer}"
 OUT="$ROOT/build/xc-$MODE"
 ARCHIVE="$OUT/LectureScribe.xcarchive"
-APP_NAME="Arc 강의 받아쓰기.app"
+APP_NAME="Arc Lecture Transcriber.app"
 step() { printf '\n· %s\n' "$*"; }
 
 if [ -z "${TEAM_ID:-}" ]; then
