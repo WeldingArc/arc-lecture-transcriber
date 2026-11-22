@@ -23,7 +23,7 @@ Files: `tests/live_tap_test.sh` (runs the scenarios), `tests/live_tap_eval.py` (
 
 1. Never play audible sound. The only audio is `afplay` of the silence file the script makes.
 2. Never click, type or answer dialogs on screen. The macOS permission prompt is answered **by the owner**.
-3. Never touch `/Applications/Arc 강의 받아쓰기.app` (no copy, move, open or quit) and never quit an app the owner is using.
+3. Never touch the installed app (`/Applications/Arc Lecture Transcriber.app`, before 2.7.4 `Arc 강의 받아쓰기.app`) (no copy, move, open or quit) and never quit an app the owner is using.
 4. Never write to `~/Downloads/강의기록` or `~/강의기록`; never read or write anything in the app's container
    (`~/Library/Containers/io.github.joshichoi.lecture-scribe/`) except reading `…/Data/Library/Application
    Support/LectureScribe/logs/app.log` — the script already does exactly that and nothing else.

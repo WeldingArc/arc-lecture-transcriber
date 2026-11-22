@@ -5,8 +5,8 @@
 	<key>CFBundleDevelopmentRegion</key><string>en</string>
 	<key>CFBundleLocalizations</key><array><string>ko</string><string>en</string><string>zh-Hans</string><string>zh-Hant</string><string>ja</string><string>es</string><string>fr</string><string>de</string><string>pt-BR</string><string>it</string><string>vi</string><string>ru</string></array>
 	<key>LSHasLocalizedDisplayName</key><true/>
-	<key>CFBundleName</key><string>Arc 강의 받아쓰기</string>
-	<key>CFBundleDisplayName</key><string>Arc 강의 받아쓰기</string>
+	<key>CFBundleName</key><string>Arc Lecture Transcriber</string>
+	<key>CFBundleDisplayName</key><string>Arc Lecture Transcriber</string>
 	<key>CFBundleIdentifier</key><string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleExecutable</key><string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
@@ -22,8 +22,8 @@
 	<key>UIBackgroundModes</key><array><string>audio</string></array>
 	<key>UIFileSharingEnabled</key><true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key><true/>
-	<key>NSMicrophoneUsageDescription</key><string>강의 소리를 녹음해 받아 적으려면 마이크가 필요합니다. 녹음과 글은 이 기기에만 저장됩니다.</string>
-	<key>NSSpeechRecognitionUsageDescription</key><string>녹음한 강의를 이 기기 안에서 Apple 음성 인식으로 받아 적습니다. 소리와 글은 밖으로 보내지 않습니다.</string>
+	<key>NSMicrophoneUsageDescription</key><string>The microphone is needed to record and transcribe the lecture. Recordings and text are kept only on this device.</string>
+	<key>NSSpeechRecognitionUsageDescription</key><string>Transcribes recorded lectures on this device with Apple's speech recognition. Sound and text never leave it.</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array><string>UIInterfaceOrientationPortrait</string></array>
 	<key>UISupportedInterfaceOrientations~ipad</key>

@@ -73,7 +73,7 @@ curl -fsSL https://raw.githubusercontent.com/WeldingArc/arc-lecture-transcriber/
 
 ### 방법 2 · 직접 다운로드
 
-[최신 릴리스](https://github.com/WeldingArc/arc-lecture-transcriber/releases/latest)에서 `LectureScribe-mac.zip`을 내려받아 압축을 풀고, `Arc 강의 받아쓰기.app`을 응용 프로그램 폴더로 옮기십시오(예전 `강의 받아쓰기.app`이 있다면 휴지통으로). 아직 Apple 공증 전이라 브라우저로 내려받은 경우 처음 열 때 macOS가 경고를 표시하고 열지 않습니다. <b>[완료]</b>를 누른 뒤 **시스템 설정 › 개인정보 보호 및 보안**에서 아래쪽의 <b>[그래도 열기]</b>를 누르십시오(처음 한 번). 방법 1의 설치 명령으로 설치하면 이 단계가 필요 없습니다.
+[최신 릴리스](https://github.com/WeldingArc/arc-lecture-transcriber/releases/latest)에서 `LectureScribe-mac.zip`을 내려받아 압축을 풀고, Arc 강의 받아쓰기(파일 이름 `Arc Lecture Transcriber.app`)를 응용 프로그램 폴더로 옮기십시오(예전 `Arc 강의 받아쓰기.app`이나 `강의 받아쓰기.app`이 있다면 휴지통으로). 아직 Apple 공증 전이라 브라우저로 내려받은 경우 처음 열 때 macOS가 경고를 표시하고 열지 않습니다. <b>[완료]</b>를 누른 뒤 **시스템 설정 › 개인정보 보호 및 보안**에서 아래쪽의 <b>[그래도 열기]</b>를 누르십시오(처음 한 번). 방법 1의 설치 명령으로 설치하면 이 단계가 필요 없습니다.
 
 ## 처음 실행할 때
 
