@@ -9,8 +9,8 @@
 set -euo pipefail
 REPO="WeldingArc/arc-lecture-transcriber"
 URL="${LECTURE_ZIP_URL:-https://github.com/$REPO/releases/latest/download/LectureScribe-mac.zip}"     # override: tests
-APP_NAME="Arc 강의 받아쓰기.app"
-OLD_NAME="강의 받아쓰기.app"                 # before 2.5.1 (v1 too)
+APP_NAME="Arc Lecture Transcriber.app"      # Finder shows "Arc 강의 받아쓰기" on a Mac whose first language is Korean
+PREV_NAMES=("Arc 강의 받아쓰기.app" "강의 받아쓰기.app")   # 2.5.1–2.7.x; before 2.5.1 (v1 too)
 
 first="$(defaults read -g AppleLanguages 2>/dev/null | sed -n '2p' | tr -d ' ",' || true)"    # ko-KR, en-US …
 case "$first" in ko*) KO=1 ;; *) KO= ;; esac
@@ -38,7 +38,7 @@ trap 'rm -rf "$tmp"' EXIT
 say "Arc 강의 받아쓰기 내려받는 중…" "Downloading Arc Lecture Transcriber…"
 curl -fL --progress-bar "$URL" -o "$tmp/app.zip"
 ditto -x -k "$tmp/app.zip" "$tmp/unzipped"
-[ -d "$tmp/unzipped/$APP_NAME" ] || APP_NAME="$OLD_NAME"      # releases before 2.5.1 use the old name
+for n in "$APP_NAME" "${PREV_NAMES[@]}"; do [ -d "$tmp/unzipped/$n" ] && { APP_NAME="$n"; break; }; done   # older releases: older names
 [ -d "$tmp/unzipped/$APP_NAME" ] || { say "내려받은 파일이 올바르지 않아요. 잠시 후 다시 시도해 주세요." "The download doesn't look right. Please try again in a moment."; exit 1; }
 # the app may need a newer macOS than this script knows of: then the installed app stays as it is
 need="$(/usr/libexec/PlistBuddy -c "Print :LSMinimumSystemVersion" "$tmp/unzipped/$APP_NAME/Contents/Info.plist" 2>/dev/null || echo 0)"
@@ -50,7 +50,7 @@ fi
 
 dest="${LECTURE_INSTALL_DIR:-/Applications}"
 [ -w "$dest" ] || { dest="$HOME/Applications"; mkdir -p "$dest"; }
-for old in "$APP_NAME" "$OLD_NAME"; do                 # update: replace the previous version of this app only
+for old in "Arc Lecture Transcriber.app" "${PREV_NAMES[@]}"; do   # update: replace the previous version of this app only
   [ -d "$dest/$old" ] || continue
   if pgrep -fl "Contents/MacOS/LectureScribe" 2>/dev/null | grep -q " $dest/"; then   # (a Korean path in pgrep's pattern can miss: NFD)
     say "Arc 강의 받아쓰기가 실행 중이에요. 앱을 종료(⌘Q)한 뒤 이 명령을 다시 실행해 주세요." "Arc Lecture Transcriber is running. Quit it (⌘Q), then run this command again."; exit 1

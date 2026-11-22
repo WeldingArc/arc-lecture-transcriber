@@ -130,6 +130,9 @@ Open source (MIT): https://github.com/WeldingArc/arc-lecture-transcriber
 • 강의가 재생되는데도 Mac의 소리가 무음으로만 들어와 받아쓰기가 도중에 멈추던 문제를 고쳤습니다(macOS 26, AirPods 등) — 이제 앱이 알아차리고 소리를 다시 받아 옵니다
 • 슬라이드 PDF를 켜고 녹음하는 중 창을 가렸다가 다시 볼 때 미리 보기가 깨져 보이던 문제를 고쳤습니다
 • 슬라이드가 강의 창 맨 위에 붙어 있을 때 미리 보기가 어두운 그라데이션에 가려지던 문제를 고쳤습니다 — 이제 PDF에 담기는 화면이 끝까지 다 보입니다
+• 앱 이름이 Mac의 언어를 따릅니다 — 한국어 Mac에서는 ‘Arc 강의 받아쓰기’, 그 밖의 언어에서는 ‘Arc Lecture Transcriber’로 보입니다(Finder, Dock, 메뉴 막대)
+• 슬라이드 PDF: macOS의 창 선택이 나타나지 않거나 강의 창을 고르지 않았으면 그 사실과 해결 방법을 단계별로 알려 줍니다 — [창 다시 고르기]로 창 선택을 다시 열 수 있습니다
+• 시작을 누르면 시작 화면이 사라지고, 아직 받아 적은 말이 없을 때는 ‘말소리를 기다리는 중’이 보입니다
 
 ## What's New (2.7, English localization)
 • Slide PDF now works for lecture videos without sound too — slides are captured from the screen changes alone
@@ -138,6 +141,9 @@ Open source (MIT): https://github.com/WeldingArc/arc-lecture-transcriber
 • Fixed transcripts that stopped partway because the Mac's sound came in as silence while the lecture played on (macOS 26, e.g. with AirPods) — the app now notices and gets the sound back
 • Fixed the live preview looking broken after hiding the window during a Slide PDF recording
 • Fixed the live preview being hidden under a dark fade when the slide sits at the very top of the lecture window — what goes into the PDF is now in full view
+• The app's name follows your Mac's language: "Arc Lecture Transcriber" everywhere except on a Mac set to Korean (Finder, Dock and menu bar)
+• Slide PDF: if macOS's window picker doesn't show up or no lecture window is chosen, the app now says so and shows how to fix it, step by step — Choose Window opens the picker again
+• The start screen now goes away when you click Start, and a recording with nothing transcribed yet shows "Waiting for speech"
 
 ## What's New (2.6)
 • 여러 강의 언어 — 시작 버튼 아래의 강의 언어에 ‘다른 언어’가 생겼습니다. 日本語 · 简体中文 · 繁體中文 · 粵語 · Español · Français · Deutsch · Italiano · Português · Русский · Tiếng Việt · हिन्दी · العربية 등 Apple 음성 인식이 이 Mac에서 지원하는 언어(macOS 27에서는 49개)를 검색해 고를 수 있습니다

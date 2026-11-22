@@ -73,7 +73,7 @@ Run the same line again to update.
 
 ### Option 2 · Download
 
-Download `LectureScribe-mac.zip` from the [latest release](https://github.com/WeldingArc/arc-lecture-transcriber/releases/latest), unzip it, and move `Arc 강의 받아쓰기.app` (Finder shows it as Arc Lecture Transcriber on a Mac set to any language but Korean) to your Applications folder (move an older `강의 받아쓰기.app` to the Trash). The app is not notarized yet, so if you downloaded it with a browser, macOS blocks it the first time ("Apple could not verify…"): click **Done**, then open **System Settings › Privacy & Security**, scroll down and click **Open Anyway** (once). The installer command in Option 1 doesn't need this step.
+Download `LectureScribe-mac.zip` from the [latest release](https://github.com/WeldingArc/arc-lecture-transcriber/releases/latest), unzip it, and move `Arc Lecture Transcriber.app` to your Applications folder (move an older `Arc 강의 받아쓰기.app` or `강의 받아쓰기.app` to the Trash). The app is not notarized yet, so if you downloaded it with a browser, macOS blocks it the first time ("Apple could not verify…"): click **Done**, then open **System Settings › Privacy & Security**, scroll down and click **Open Anyway** (once). The installer command in Option 1 doesn't need this step.
 
 ## First launch
 

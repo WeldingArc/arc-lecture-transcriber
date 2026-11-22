@@ -61,10 +61,10 @@ scripts/build_transcribe.sh  builds transcribe.cpp (pinned tag) into one self-co
 ### Build
 
 ```bash
-scripts/build_v2.sh                 # ad-hoc signed → build/v2/Arc 강의 받아쓰기.app, dist/v2/LectureScribe-mac.zip
+scripts/build_v2.sh                 # ad-hoc signed → build/v2/Arc Lecture Transcriber.app, dist/v2/LectureScribe-mac.zip
 SIGN_ID="Developer ID Application: NAME (TEAMID)" scripts/build_v2.sh     # for GitHub, then notarize:
 xcrun notarytool submit dist/v2/LectureScribe-mac.zip --keychain-profile PROFILE --wait
-xcrun stapler staple "build/v2/Arc 강의 받아쓰기.app"                           # and zip again
+xcrun stapler staple "build/v2/Arc Lecture Transcriber.app"                    # and zip again
 ```
 
 The script needs only the Command Line Tools. For signed builds and the App Store use Xcode
@@ -115,7 +115,9 @@ and the app refuses to record in it — a recording would make macOS fetch the r
 lectures without the Korean model, as for someone with no Korean on the device), `LECTURE_TEST_NEW_USER=1` (a first launch
 as on a Mac without ~/Downloads/강의기록 — with `-AppleLanguages '(ru-RU)'` as launch arguments for the device's language), `LECTURE_TEST_SNAP=<sec,sec,…>` (WebKit's own
 picture of the page at those seconds into `LECTURE_OUT_DIR`: no screen access needed), `LECTURE_FAKE_SCREEN=<video>` (a video
-plays the lecture window for 슬라이드 PDF, in real time, instead of the picker), `LECTURE_CLEAN_CAPTURE=0|1`. Any
+plays the lecture window for 슬라이드 PDF, in real time, instead of the picker), `LECTURE_TEST_PICKER=silent|cancel|fail|denied`
+(how macOS's window picker answers — never / cancelled / couldn't open / capture refused; the page's 창 다시 고르기 then
+plays `LECTURE_FAKE_SCREEN`), `LECTURE_TEST_PICK_WAIT=<sec>` (how long until "no window chosen" — 20 s), `LECTURE_CLEAN_CAPTURE=0|1`. Any
 `LECTURE_TEST_*` skips the first-run notice. `OUT=<dir> DIST=<dir> scripts/build_v2.sh` builds elsewhere. CLI: `--live <sec> --pause-at <sec> --pause-for <sec>` pauses a test recording.
 
 The UI runs in a normal browser as a demo (no sound): `ui/index.html?shot`, `?shot=saved|keywords|library|detail|playing|slides|find`
@@ -475,6 +477,11 @@ with its text normalization on it stops after the first sentence.
   not recorded, not on the clock — and the first buffer after pausing becomes 1.5 s of silence for both the recognizer
   and the recording, so the sentence before the break ends there and the transcript's times stay the recording's
   times. Slide frames are ignored meanwhile. The page's clock leaves the paused time out.
+- The start screen (illustration, "강의 영상을 재생하고 시작을 누르십시오") is for an idle window with nothing on it: it goes
+  at 시작 (files too) and comes back after an accidental start/stop, which saves nothing. A live recording with nothing written
+  yet — before anyone speaks, or a lecture video without sound — shows `말소리를 기다리는 중` where the first sentence will
+  appear (`#waiting`: mid-window in 글 and without 슬라이드 PDF, one row under the picture in 화면; not while paused). It
+  takes no room of its own, so the page never scrolls for it.
 - 글 편집 (`saveLines`: the page sends every line; `linesSaved`): the transcript is written again — header, lines, the
   중요 문장 tail made again — and the recording is untouched; a slide PDF keeps its text. An emptied line is removed.
   ⌘F in a session marks every match (`find`), Return / ⇧Return step through them.
