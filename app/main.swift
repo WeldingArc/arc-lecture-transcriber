@@ -292,10 +292,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
     func openLink(_ url: URL) { NSWorkspace.shared.open(url) }
 
     /// macOS 14.2–15: Software Update (the notice recommending the latest macOS); Speech Recognition (its permission);
-    /// Siri (macOS 14/15 transcribe with Siri's language models).
+    /// Siri (macOS 14/15 transcribe with Siri's language models). Screen & System Audio Recording, when the window picker
+    /// for 슬라이드 PDF didn't work: asking for the permission first puts the app in that list (macOS lists only apps that
+    /// asked) and, the first time, brings up macOS's own question.
     func openPane(_ name: String) {
+        if name == "screen", !CGPreflightScreenCaptureAccess() { log("asked for screen recording: \(CGRequestScreenCaptureAccess())") }
         let pages = name == "update" ? ["x-apple.systempreferences:com.apple.Software-Update-Settings.extension",
                                         "x-apple.systempreferences:com.apple.preferences.softwareupdate"]
+                  : name == "screen" ? ["x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture"]
                   : name == "speech" ? ["x-apple.systempreferences:com.apple.preference.security?Privacy_SpeechRecognition"]
                   : name == "siri" ? ["x-apple.systempreferences:com.apple.Siri-Settings.extension"] : []
         for s in pages { if let u = URL(string: s), NSWorkspace.shared.open(u) { break } }
@@ -325,6 +329,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
     }
     func startScreenSlides() { screenSlides.start() }
     func stopScreenSlides() { screenSlides.stop() }
+    func pickWindow() { screenSlides.pickAgain() }
 
     func pickFile() {
         let panel = NSOpenPanel()

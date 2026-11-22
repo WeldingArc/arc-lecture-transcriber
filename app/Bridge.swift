@@ -25,12 +25,16 @@ protocol Platform: AnyObject {
     func openLogs()
     /// The app's language changed: menus (Mac) and the page in the new one.
     func languageChanged()
-    /// Mac: a System Settings page — "update" (Software Update), "speech" (Privacy › Speech Recognition), "siri".
+    /// Mac: a System Settings page — "update" (Software Update), "speech" (Privacy › Speech Recognition), "siri",
+    /// "screen" (Privacy › Screen & System Audio Recording).
     func openPane(_ name: String)
+    /// Mac: macOS's window picker again (창 다시 고르기, while recording with 슬라이드 PDF).
+    func pickWindow()
 }
 
 extension Platform {
     func openPane(_ name: String) {}
+    func pickWindow() {}
 }
 
 @MainActor
@@ -158,6 +162,8 @@ final class Bridge {
         case "pickFile": platform?.pickFile()
         case "openPrivacy": platform?.openPrivacy()
         case "openPane": platform?.openPane(body["pane"] as? String ?? "")
+        case "pickWindow":                                                  // only while a live recording collects slides
+            if let s = engine.session, s.mode == .live, engine.settings.slides { platform?.pickWindow() }
         case "log": log("page: \(body["msg"] ?? "")")
 
         // ---- library
