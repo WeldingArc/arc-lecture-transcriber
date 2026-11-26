@@ -15,6 +15,12 @@
   },
   "recording": {
    "other": "録音{n}件"
+  },
+  "second": {
+   "other": "{n}秒"
+  },
+  "minute": {
+   "other": "{n}分"
   }
  },
  "text": {
@@ -492,6 +498,34 @@
   "Click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording” › “System Audio Recording Only”.": "“プライバシー設定を開く”をクリックし、“プライバシーとセキュリティ” › “画面収録とシステムオーディオ録音” › “システムオーディオ録音のみ”でArc Lecture Transcriberをオンにしてください。",
   "If this message keeps appearing while the video is playing:": "動画を再生しているのにこのメッセージが表示され続ける場合：",
   "No sound is coming in. If the lecture video has no sound, that's fine — its slides are still collected into the PDF. If it does have sound:": "音が入ってきていません。講義動画に音がない場合は問題ありません。スライドはそのままPDFに収集されます。音がある場合：",
-  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”.": "それでもうまくいかない場合は、“プライバシー設定を開く”をクリックし、“プライバシーとセキュリティ” › “画面収録とシステムオーディオ録音”でArc Lecture Transcriberをオンにしてください。"
+  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”.": "それでもうまくいかない場合は、“プライバシー設定を開く”をクリックし、“プライバシーとセキュリティ” › “画面収録とシステムオーディオ録音”でArc Lecture Transcriberをオンにしてください。",
+  "Same as the Mac": "Macと同じ",
+  "Appearance": "外観",
+  "App Icon": "Appアイコン",
+  "Rose": "ローズ",
+  "Blue": "ブルー",
+  "Lavender": "ラベンダー",
+  "Show": "表示",
+  "Edit…": "編集…",
+  "In Use": "使用中",
+  "Use": "使用",
+  "Location": "場所",
+  "General": "一般",
+  "Storage": "ストレージ",
+  "About": "情報",
+  "Language Settings…": "言語設定…",
+  "On This Mac": "このMacにあり",
+  "Download (about {0})": "ダウンロード（約{0}）",
+  "Rename…": "名称変更…",
+  "Share…": "共有…",
+  "Lecture window out of sight": "講義のウインドウが見えていません",
+  "<b>Lecture window out of sight</b>A window on another desktop or minimized isn't drawn by its app, so there's nothing to capture. Slides continue once it's back in view.": "<b>講義のウインドウが見えていません</b>ほかのデスクトップにあるウインドウや最小化されたウインドウは、そのアプリが描画しないため、取り込めるものがありません。ウインドウがまた見えるようになると、スライドの収集を続けます。",
+  "Collecting slides again — the lecture window was out of sight for {0}.": "スライドの収集を再開しました。講義のウインドウが{0}見えていませんでした。",
+  "Slide PDF: the lecture window was out of sight for {0}, so slides from that time couldn't be collected. Collecting again now.": "スライドPDF：講義のウインドウが{0}見えていなかったため、その間のスライドは収集できませんでした。今は再び収集しています。",
+  "Slide PDF: the lecture window is out of sight (on another desktop, behind a full-screen app, or minimized), so {0} has stopped drawing it — no slides can be collected until it's back in view. Transcription continues.": "スライドPDF：講義のウインドウが見えていない（ほかのデスクトップにある、フルスクリーンのアプリの裏にある、または最小化されている）ため、{0}がウインドウの描画を止めています。また見えるようになるまでスライドは収集できません。文字起こしは続いています。",
+  "the app showing it": "表示しているアプリ",
+  "To keep collecting slides while you work on another desktop, play the lecture video in Picture in Picture — in Chrome, right-click the video twice and choose it from the menu. That window stays visible on every desktop.": "ほかのデスクトップで作業しながらスライドを収集し続けるには、講義の動画をピクチャ・イン・ピクチャで再生してください。Chromeでは、動画を2回続けて右クリックするとメニューに表示されます。そのウインドウはすべてのデスクトップに表示されます。",
+  "Click Choose Window and pick the Picture in Picture window.": "“ウインドウを選択”をクリックして、ピクチャ・イン・ピクチャのウインドウを選んでください。",
+  "More Languages": "その他の言語"
  }
 };

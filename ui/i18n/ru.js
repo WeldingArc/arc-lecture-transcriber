@@ -27,6 +27,18 @@
    "few": "{n} записи",
    "many": "{n} записей",
    "other": "{n} записи"
+  },
+  "second": {
+   "one": "{n} секунду",
+   "few": "{n} секунды",
+   "many": "{n} секунд",
+   "other": "{n} секунды"
+  },
+  "minute": {
+   "one": "{n} минуту",
+   "few": "{n} минуты",
+   "many": "{n} минут",
+   "other": "{n} минуты"
   }
  },
  "text": {
@@ -504,6 +516,34 @@
   "Click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording” › “System Audio Recording Only”.": "Нажмите «Открыть Системные настройки» и включите Arc Lecture Transcriber (Arc 강의 받아쓰기) в разделе «Конфиденциальность и безопасность» › «Запись экрана и системного звука» › «Только запись системного звука».",
   "If this message keeps appearing while the video is playing:": "Если видео воспроизводится, а это сообщение продолжает появляться:",
   "No sound is coming in. If the lecture video has no sound, that's fine — its slides are still collected into the PDF. If it does have sound:": "Звук не поступает. Если в видео лекции нет звука, ничего страшного — слайды по-прежнему собираются в PDF. Если звук есть:",
-  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”.": "Если это не помогло, нажмите «Открыть Системные настройки» и включите Arc Lecture Transcriber (Arc 강의 받아쓰기) в разделе «Конфиденциальность и безопасность» › «Запись экрана и системного звука»."
+  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”.": "Если это не помогло, нажмите «Открыть Системные настройки» и включите Arc Lecture Transcriber (Arc 강의 받아쓰기) в разделе «Конфиденциальность и безопасность» › «Запись экрана и системного звука».",
+  "Same as the Mac": "Как на Mac",
+  "Appearance": "Оформление",
+  "App Icon": "Значок приложения",
+  "Rose": "Розовый",
+  "Blue": "Синий",
+  "Lavender": "Лавандовый",
+  "Show": "Показать",
+  "Edit…": "Изменить…",
+  "In Use": "Используется",
+  "Use": "Использовать",
+  "Location": "Расположение",
+  "General": "Основные",
+  "Storage": "Хранилище",
+  "About": "О программе",
+  "Language Settings…": "Настройки языка…",
+  "On This Mac": "На этом Mac",
+  "Download (about {0})": "Загрузка (около {0})",
+  "Rename…": "Переименовать…",
+  "Share…": "Поделиться…",
+  "Lecture window out of sight": "Окно лекции не видно",
+  "<b>Lecture window out of sight</b>A window on another desktop or minimized isn't drawn by its app, so there's nothing to capture. Slides continue once it's back in view.": "<b>Окно лекции не видно</b>Окно на другом рабочем столе или свернутое окно приложение не отрисовывает, поэтому снимать нечего. Сбор слайдов продолжится, как только окно снова станет видно.",
+  "Collecting slides again — the lecture window was out of sight for {0}.": "Сбор слайдов возобновлен — окно лекции было не видно {0}.",
+  "Slide PDF: the lecture window was out of sight for {0}, so slides from that time couldn't be collected. Collecting again now.": "PDF слайдов: окно лекции было не видно {0}, поэтому слайды за это время не собраны. Сбор снова идет.",
+  "Slide PDF: the lecture window is out of sight (on another desktop, behind a full-screen app, or minimized), so {0} has stopped drawing it — no slides can be collected until it's back in view. Transcription continues.": "PDF слайдов: окно лекции не видно (оно на другом рабочем столе, за приложением во весь экран или свернуто), поэтому {0} больше его не отрисовывает — пока окно снова не станет видно, слайды собирать нельзя. Расшифровка продолжается.",
+  "the app showing it": "приложение",
+  "To keep collecting slides while you work on another desktop, play the lecture video in Picture in Picture — in Chrome, right-click the video twice and choose it from the menu. That window stays visible on every desktop.": "Чтобы слайды собирались, пока вы работаете на другом рабочем столе, включите для видео лекции режим «Картинка в картинке» — в Chrome дважды нажмите на видео правой кнопкой мыши и выберите его в меню. Это окно видно на всех рабочих столах.",
+  "Click Choose Window and pick the Picture in Picture window.": "Нажмите «Выбрать окно» и выберите окно «Картинка в картинке».",
+  "More Languages": "Другие языки"
  }
 };

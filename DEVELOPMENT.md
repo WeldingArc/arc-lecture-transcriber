@@ -33,7 +33,13 @@ app/Slides.swift         슬라이드 PDF: frame signatures, the slide detector,
                          extraction, the PDF (slide + what was said per page)
 app/CameraFinder.swift   슬라이드 PDF: finds the lecturer's camera (where pixels keep changing while the rest holds
                          still) — left out of slide comparisons and outlined on the live preview
-app/ScreenSlides.swift   Mac: the lecture window via SCContentSharingPicker + SCStream (2 fps)
+app/ScreenSlides.swift   Mac: the lecture window via SCContentSharingPicker + SCStream (2 fps); watches whether that window
+                         is on screen (another desktop / full screen / minimized: its app stops drawing it) → slidesSight
+app/SettingsWindow.swift Mac: the Settings window (SwiftUI in NSTabViewController toolbar tabs: General, Transcription,
+                         Speech Recognition, Storage, About), kept current from the engine's events; changes go through
+                         Bridge.handle like the page's (the iPhone/iPad app keeps the page's own 설정)
+app/PopUpMenus.swift     Mac: the page's menus as macOS menus (the globe, 다른 언어, a recording's ⋯) — the page lists
+                         the items and gets the choice back (menuPick)
 app/main.swift           Mac: AppKit window + WKWebView, menus, CLI test modes
 app/ios/App.swift        iPhone/iPad: SwiftUI scene + WKWebView, share sheet, document picker, mic permission
 app/ios/Info.plist, Assets.xcassets, PrivacyInfo.xcprivacy
@@ -117,7 +123,14 @@ as on a Mac without ~/Downloads/강의기록 — with `-AppleLanguages '(ru-RU)'
 picture of the page at those seconds into `LECTURE_OUT_DIR`: no screen access needed), `LECTURE_FAKE_SCREEN=<video>` (a video
 plays the lecture window for 슬라이드 PDF, in real time, instead of the picker), `LECTURE_TEST_PICKER=silent|cancel|fail|denied`
 (how macOS's window picker answers — never / cancelled / couldn't open / capture refused; the page's 창 다시 고르기 then
-plays `LECTURE_FAKE_SCREEN`), `LECTURE_TEST_PICK_WAIT=<sec>` (how long until "no window chosen" — 20 s), `LECTURE_CLEAN_CAPTURE=0|1`. Any
+plays `LECTURE_FAKE_SCREEN`), `LECTURE_TEST_PICK_WAIT=<sec>` (how long until "no window chosen" — 20 s), `LECTURE_CLEAN_CAPTURE=0|1`,
+`LECTURE_TEST_SETTINGS=<tab>@<sec>,…` (the Settings window at that tab then — general, transcription, speech, storage,
+about, or close — and app.log gets its window number for `screencapture -l`), `LECTURE_TEST_SET=<key>=<value>@<sec>,…`
+(a setting changed as the Settings window changes it; true/false for switches), `LECTURE_TEST_KW_SHEET=1` (the key words
+sheet open), `LECTURE_TEST_STORE_FILE=<json>` (events for the Settings window only, 2 s in — a download in progress),
+`LECTURE_TEST_MENU=<sec>:<value>` (a macOS menu the page opens logs its items after that long, then that choice; `-`
+closes it), `LECTURE_TEST_WATCH_WINDOW=<window number>` (with `LECTURE_FAKE_SCREEN`: that window plays the lecture
+window for the out-of-sight watch — minimize it to test) and `LECTURE_TEST_SIGHT_GRACE=<sec>` (3 s). Any
 `LECTURE_TEST_*` skips the first-run notice. `OUT=<dir> DIST=<dir> scripts/build_v2.sh` builds elsewhere. CLI: `--live <sec> --pause-at <sec> --pause-for <sec>` pauses a test recording.
 
 The UI runs in a normal browser as a demo (no sound): `ui/index.html?shot`, `?shot=saved|keywords|library|detail|playing|slides|find`

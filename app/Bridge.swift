@@ -30,11 +30,17 @@ protocol Platform: AnyObject {
     func openPane(_ name: String)
     /// Mac: macOS's window picker again (창 다시 고르기, while recording with 슬라이드 PDF).
     func pickWindow()
+    /// Mac: the Settings window, at a tab ("general", "transcription", "speech", "storage", "about").
+    func showSettings(tab: String?)
+    /// Mac: one of the page's menus as a macOS menu (PopUpMenus).
+    func popUpMenu(_ body: [String: Any])
 }
 
 extension Platform {
     func openPane(_ name: String) {}
     func pickWindow() {}
+    func showSettings(tab: String?) {}
+    func popUpMenu(_ body: [String: Any]) {}
 }
 
 @MainActor
@@ -164,6 +170,8 @@ final class Bridge {
         case "openPane": platform?.openPane(body["pane"] as? String ?? "")
         case "pickWindow":                                                  // only while a live recording collects slides
             if let s = engine.session, s.mode == .live, engine.settings.slides { platform?.pickWindow() }
+        case "nativeSettings": platform?.showSettings(tab: body["tab"] as? String)    // Mac: the gear, ⌘,
+        case "menu": platform?.popUpMenu(body)                                       // Mac: the page's menus
         case "log": log("page: \(body["msg"] ?? "")")
 
         // ---- library

@@ -123,6 +123,24 @@ Arc Lecture Transcriber is a tool to support personal study.
 
 Open source (MIT): https://github.com/WeldingArc/arc-lecture-transcriber
 
+## What's New (2.8)
+• 설정이 macOS 기본 설정 창으로 바뀌었습니다 — 일반 · 받아쓰기 · 음성 인식 · 저장 · 정보 탭(⌘,)에서 언어, 테마, 강조 색, 글자 크기, 앱 아이콘, 슬라이드 PDF, 중요 단어, 음성 인식 엔진을 바꿉니다
+• 언어(지구본), 다른 강의 언어, 기록의 ⋯ 메뉴가 macOS 기본 메뉴로 바뀌었습니다. 자주 쓰는 강의 언어는 바로 보이고, 나머지는 ‘언어 더 보기’에 있습니다
+• 설정 › 일반 › 언어에 ‘Mac과 같게’가 생겼습니다 — 고른 언어를 지우고 다시 Mac의 언어를 따릅니다
+• 슬라이드 PDF: 강의 창이 다른 데스크탑에 있거나 최소화되어 보이지 않으면 Chrome 같은 앱이 그 창을 그리지 않아 슬라이드를 담을 수 없습니다 — 이제 앱이 그 사실을 알리고, 다른 데스크탑에서 일하면서도 슬라이드를 모으는 방법(PIP 모드)을 안내합니다. 미리 보기는 마지막 슬라이드를 보여 주고, 창이 다시 보이면 이어서 모읍니다
+• 앱 이름이 Mac의 언어를 따릅니다 — 한국어 Mac에서는 ‘Arc 강의 받아쓰기’, 그 밖의 언어에서는 ‘Arc Lecture Transcriber’로 보입니다(Finder, Dock, 메뉴 막대)
+• 슬라이드 PDF: macOS의 창 선택이 나타나지 않거나 강의 창을 고르지 않았으면 그 사실과 해결 방법을 단계별로 알려 줍니다 — [창 다시 고르기]로 창 선택을 다시 열 수 있습니다
+• 시작을 누르면 시작 화면이 사라지고, 아직 받아 적은 말이 없을 때는 ‘말소리를 기다리는 중’이 보입니다
+
+## What's New (2.8, English localization)
+• Settings is now a native macOS Settings window — General, Transcription, Speech Recognition, Storage and About tabs (⌘,) for the language, theme, accent color, text size, app icon, Slide PDF, key words and speech engines
+• The language menu (globe), the other lecture languages and a recording's ⋯ menu in the Library are now native macOS menus. Common lecture languages are right there; the rest are under More Languages
+• Settings › General › Language now has "Same as the Mac" — the app goes back to following your Mac's language
+• Slide PDF: when the lecture window is on another desktop or minimized, apps like Chrome stop drawing it, so its slides can't be captured — the app now says so and shows how to keep collecting slides while you work on another desktop (Picture in Picture). The preview keeps the last slide, and collecting resumes when the window is back in view
+• The app's name follows your Mac's language: "Arc Lecture Transcriber" everywhere except on a Mac set to Korean (Finder, Dock and menu bar)
+• Slide PDF: if macOS's window picker doesn't show up or no lecture window is chosen, the app now says so and shows how to fix it, step by step — Choose Window opens the picker again
+• The start screen now goes away when you click Start, and a recording with nothing transcribed yet shows "Waiting for speech"
+
 ## What's New (2.7)
 • 소리가 없는 강의 영상도 슬라이드 PDF로 모읍니다 — 화면이 바뀌는 것만으로 슬라이드를 담습니다
 • 슬라이드 PDF에 슬라이드의 글자도 담깁니다 — Mac 안에서 읽어 넣으므로 PDF에서 검색하고 복사할 수 있습니다(슬라이드 모양은 그대로)

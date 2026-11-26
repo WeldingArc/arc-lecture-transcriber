@@ -87,15 +87,16 @@ On first launch the app shows a **Usage Notice and Disclaimer**. Read it and cli
 
 - **Transcribe a file:** drop an audio or video file onto the window, or use **Open File…**
 - **Change the key words:** **Key Words** at the bottom
-- **Slide PDF layout:** Settings › PDF Layout (Landscape · Two Files · A4 Page)
+- **Slide PDF layout:** Settings (⌘,) › Transcription › PDF Layout (Landscape · Two Files · A4 Page) — on iPhone and iPad, Settings › PDF Layout
 - **While recording:** the **Screen · Text** switch at the top (Screen for the large view, Text for the small card)
-- **Interface language:** the globe at the top left of the start screen, or Settings › Language (12 languages)
+- **Interface language:** the globe at the top left of the start screen, or Settings › General › Language (12 languages; "Same as the Mac" follows your Mac's language)
 - **Shortcuts:** ⌘R start/stop · ⌘P pause/resume · ⌘F find in a session · ⌘O open a file · ⌘⇧C copy everything (also in the menu bar: Record, and Edit › Find…)
 
 ## Good to know
 
 - **For personal study.** Sharing or distributing lecture recordings or transcripts can raise copyright and portrait-right issues and may break your school's rules. See the usage notice and disclaimer below.
 - Transcription is not perfect. Proper nouns such as names, and numbers (e.g. 4장 "chapter 4" heard as 사장 "president"), can be wrong, so check anything important against the recording.
+- **Slide PDF and other desktops:** if you move the lecture window to another desktop (a full-screen app counts) or minimize it while recording, apps like Chrome and Safari stop drawing a window you can't see, so slides from that time can't be captured (transcription goes on, and the app tells you). To keep collecting slides while you work on another desktop, play the lecture video in Picture in Picture and pick that window with Choose Window — a Picture in Picture window stays visible on every desktop.
 
 ## Usage notice and disclaimer
 
