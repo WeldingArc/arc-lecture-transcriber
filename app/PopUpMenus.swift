@@ -18,9 +18,11 @@ final class PopUpMenus: NSObject {
     /// body: kind; items [{title, value, on, disabled, symbol} | {type: "separator"} | {type: "header", title}];
     /// x, y, w, h: the button's box in the page (top-left origin); at: [x, y] for a right-click; up: opens upward.
     func show(_ body: [String: Any]) {
-        guard let web, !open else { return }
+        let kind = body["kind"] as? String ?? "", id = body["id"] ?? NSNull(), token = body["token"] ?? NSNull()
+        let dropped: [String: Any] = ["ev": "menuPick", "kind": kind, "value": NSNull(), "id": id, "token": token, "dropped": true]
+        guard let web, !open else { reply?(dropped); return }            // a menu is up already: this one isn't shown
         let menu = build(body["items"] as? [[String: Any]] ?? [])
-        guard !menu.items.isEmpty else { return }
+        guard !menu.items.isEmpty else { reply?(dropped); return }
         func n(_ k: String) -> CGFloat { CGFloat((body[k] as? NSNumber)?.doubleValue ?? 0) }
         // the page's points, top-left origin → the web view's own coordinates
         func point(_ x: CGFloat, _ yTop: CGFloat) -> NSPoint { NSPoint(x: x, y: web.isFlipped ? yTop : web.bounds.height - yTop) }
@@ -36,7 +38,6 @@ final class PopUpMenus: NSObject {
         chosen = nil
         open = true
         current = menu
-        let kind = body["kind"] as? String ?? "", id = body["id"] ?? NSNull(), token = body["token"] ?? NSNull()
         if let spec = env["LECTURE_TEST_MENU"], let colon = spec.firstIndex(of: ":"), let t = Double(spec[..<colon]) {
             let want = String(spec[spec.index(after: colon)...])                     // tests: "2.5:en" — after 2.5 s, what the
             let timer = Timer(timeInterval: t, repeats: false) { [weak self] _ in     // menu lists (app.log), then that choice

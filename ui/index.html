@@ -1877,14 +1877,15 @@
   const IOS = window.__PLATFORM__ === "ios" || (!native && /[?&]ios\b/.test(location.search));
   /// The Mac app: its own Settings window and macOS menus (the globe, 다른 언어, a recording's ⋯) instead of the page's.
   const MAC = !!native && window.__PLATFORM__ === "mac";
-  const menuPicks = {};
+  const menuPicks = new Map();
   let menuSeq = 0;
   /** A macOS menu at `anchor` (a button): items [{title, value, on, disabled, symbol, submenu} | {type: "separator"} |
    *  {type: "header", title}]; `pick` gets the chosen value, or null when it closed without a choice. Each request has
-   *  its token: an answer goes only to the request whose menu it was (a second click before the menu shows is dropped). */
+   *  its token, so the answer goes to the request whose menu was shown (one asked for while a menu is up comes back
+   *  "dropped" and does nothing). */
   function nativeMenu(kind, anchor, items, opts, pick) {
     const r = anchor.getBoundingClientRect(), token = ++menuSeq;
-    menuPicks[kind] = { token, pick };
+    menuPicks.set(token, pick);
     anchor.setAttribute("aria-expanded", "true");
     send("menu", { kind, items, x: r.left, y: r.top, w: r.width, h: r.height, token, ...opts });
   }
@@ -3271,7 +3272,10 @@
         d.textContent = L("일시정지 후 이어서 받아 적습니다", "Resumed after a pause");
         $("transcript").appendChild(d);
         if (state.follow) scrollToEnd();
-        if (live.out && $("sl").checked && state.mode === "live") sightNotice(live.outApp, 0);   // went out of sight while paused
+        if (live.out && $("sl").checked && state.mode === "live") {     // went out of sight while paused
+          if ($("notice").classList.contains("show") && ["no_input", "no_audio"].includes(noticeCode)) soundNotice = soundEv;
+          sightNotice(live.outApp, 0);
+        }
       }
       if (state.rec === "recording") setStatus(recStatus());
       refreshControls();
@@ -3482,10 +3486,9 @@
     /// a macOS menu closed: what was chosen (null: nothing)
     menuPick(ev) {
       for (const a of [$("langBtn"), $("langMore"), ...document.querySelectorAll('.srow-more[aria-expanded="true"]')]) a.setAttribute("aria-expanded", "false");
-      const p = menuPicks[ev.kind];
-      if (!p || p.token !== ev.token) return;                         // not the menu that was asked for last
-      delete menuPicks[ev.kind];
-      p.pick(ev.value == null ? null : ev.value);
+      const pick = menuPicks.get(ev.token);
+      menuPicks.delete(ev.token);
+      if (pick && !ev.dropped) pick(ev.value == null ? null : ev.value);
     },
     openLegal() { if (!legalPending()) openLegal(false); },
     bye() {},
