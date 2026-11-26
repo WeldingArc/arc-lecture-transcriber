@@ -15,6 +15,12 @@
   },
   "recording": {
    "other": "{n} 个录音"
+  },
+  "second": {
+   "other": "{n} 秒"
+  },
+  "minute": {
+   "other": "{n} 分钟"
   }
  },
  "text": {
@@ -492,6 +498,34 @@
   "Click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording” › “System Audio Recording Only”.": "点按“打开隐私设置”，然后在“隐私与安全”›“录屏与系统录音”›“仅系统录音”中打开 Arc Lecture Transcriber（Arc 강의 받아쓰기）。",
   "If this message keeps appearing while the video is playing:": "如果视频正在播放，此提示却仍反复出现：",
   "No sound is coming in. If the lecture video has no sound, that's fine — its slides are still collected into the PDF. If it does have sound:": "没有声音传入。如果课程视频本身没有声音，这没有关系——幻灯片仍会收集到 PDF 中。如果视频有声音：",
-  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”.": "如果仍然不行，请点按“打开隐私设置”，然后在“隐私与安全”›“录屏与系统录音”中打开 Arc Lecture Transcriber（Arc 강의 받아쓰기）。"
+  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”.": "如果仍然不行，请点按“打开隐私设置”，然后在“隐私与安全”›“录屏与系统录音”中打开 Arc Lecture Transcriber（Arc 강의 받아쓰기）。",
+  "Same as the Mac": "与 Mac 相同",
+  "Appearance": "外观",
+  "App Icon": "App 图标",
+  "Rose": "玫瑰色",
+  "Blue": "蓝色",
+  "Lavender": "薰衣草紫",
+  "Show": "显示",
+  "Edit…": "编辑…",
+  "In Use": "使用中",
+  "Use": "使用",
+  "Location": "位置",
+  "General": "通用",
+  "Storage": "存储",
+  "About": "关于",
+  "Language Settings…": "语言设置…",
+  "On This Mac": "在这台 Mac 上",
+  "Download (about {0})": "下载（约 {0}）",
+  "Rename…": "重新命名…",
+  "Share…": "共享…",
+  "Lecture window out of sight": "看不到课程窗口",
+  "<b>Lecture window out of sight</b>A window on another desktop or minimized isn't drawn by its app, so there's nothing to capture. Slides continue once it's back in view.": "<b>看不到课程窗口</b>位于其他桌面或已最小化的窗口不会被其所属的 App 绘制，因此没有可截取的内容。窗口重新显示后会继续收集幻灯片。",
+  "Collecting slides again — the lecture window was out of sight for {0}.": "正在重新收集幻灯片——课程窗口有 {0} 不可见。",
+  "Slide PDF: the lecture window was out of sight for {0}, so slides from that time couldn't be collected. Collecting again now.": "幻灯片 PDF：课程窗口有 {0} 不可见，因此那段时间的幻灯片未能收集。现已重新开始收集。",
+  "Slide PDF: the lecture window is out of sight (on another desktop, behind a full-screen app, or minimized), so {0} has stopped drawing it — no slides can be collected until it's back in view. Transcription continues.": "幻灯片 PDF：课程窗口当前不可见（在其他桌面上、被全屏 App 挡住或已最小化），因此 {0} 已停止绘制它——在它重新显示之前无法收集幻灯片。转写将继续。",
+  "the app showing it": "显示它的 App",
+  "To keep collecting slides while you work on another desktop, play the lecture video in Picture in Picture — in Chrome, right-click the video twice and choose it from the menu. That window stays visible on every desktop.": "若想在其他桌面工作时继续收集幻灯片，请以画中画播放课程视频——在 Chrome 中，在视频上连续右键点按两次，然后从菜单中选择“画中画”。画中画窗口在每个桌面上都可见。",
+  "Click Choose Window and pick the Picture in Picture window.": "点按“选择窗口”，然后选择画中画窗口。",
+  "More Languages": "更多语言"
  }
 };

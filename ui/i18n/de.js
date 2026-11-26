@@ -19,6 +19,14 @@
   "recording": {
    "one": "{n} Aufnahme",
    "other": "{n} Aufnahmen"
+  },
+  "second": {
+   "one": "{n} Sekunde",
+   "other": "{n} Sekunden"
+  },
+  "minute": {
+   "one": "{n} Minute",
+   "other": "{n} Minuten"
   }
  },
  "text": {
@@ -496,6 +504,34 @@
   "Click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording” › “System Audio Recording Only”.": "Klicken Sie auf „Datenschutzeinstellungen öffnen“ und aktivieren Sie Arc Lecture Transcriber (Arc 강의 받아쓰기) unter „Datenschutz & Sicherheit“ › „Aufnahme von Bildschirm & Systemaudio“ › „Nur Aufnahme von Systemaudio“.",
   "If this message keeps appearing while the video is playing:": "Wenn diese Meldung weiterhin erscheint, obwohl das Video läuft:",
   "No sound is coming in. If the lecture video has no sound, that's fine — its slides are still collected into the PDF. If it does have sound:": "Es kommt kein Ton an. Wenn das Vorlesungsvideo keinen Ton hat, ist das in Ordnung – seine Folien werden trotzdem im PDF gesammelt. Wenn es Ton hat:",
-  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”.": "Falls das nicht hilft, klicken Sie auf „Datenschutzeinstellungen öffnen“ und aktivieren Sie Arc Lecture Transcriber (Arc 강의 받아쓰기) unter „Datenschutz & Sicherheit“ › „Aufnahme von Bildschirm & Systemaudio“."
+  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”.": "Falls das nicht hilft, klicken Sie auf „Datenschutzeinstellungen öffnen“ und aktivieren Sie Arc Lecture Transcriber (Arc 강의 받아쓰기) unter „Datenschutz & Sicherheit“ › „Aufnahme von Bildschirm & Systemaudio“.",
+  "Same as the Mac": "Wie auf dem Mac",
+  "Appearance": "Erscheinungsbild",
+  "App Icon": "App-Symbol",
+  "Rose": "Rosé",
+  "Blue": "Blau",
+  "Lavender": "Lavendel",
+  "Show": "Anzeigen",
+  "Edit…": "Bearbeiten …",
+  "In Use": "Wird verwendet",
+  "Use": "Verwenden",
+  "Location": "Speicherort",
+  "General": "Allgemein",
+  "Storage": "Speicher",
+  "About": "Über",
+  "Language Settings…": "Spracheinstellungen …",
+  "On This Mac": "Auf diesem Mac",
+  "Download (about {0})": "Download (ca. {0})",
+  "Rename…": "Umbenennen …",
+  "Share…": "Teilen …",
+  "Lecture window out of sight": "Vorlesungsfenster nicht sichtbar",
+  "<b>Lecture window out of sight</b>A window on another desktop or minimized isn't drawn by its app, so there's nothing to capture. Slides continue once it's back in view.": "<b>Vorlesungsfenster nicht sichtbar</b>Ein Fenster auf einem anderen Schreibtisch oder im Dock wird von seiner App nicht gezeichnet, daher gibt es nichts zu erfassen. Sobald es wieder sichtbar ist, geht es mit den Folien weiter.",
+  "Collecting slides again — the lecture window was out of sight for {0}.": "Folien werden wieder gesammelt – das Vorlesungsfenster war {0} lang nicht sichtbar.",
+  "Slide PDF: the lecture window was out of sight for {0}, so slides from that time couldn't be collected. Collecting again now.": "Folien-PDF: Das Vorlesungsfenster war {0} lang nicht sichtbar, daher konnten die Folien aus dieser Zeit nicht gesammelt werden. Jetzt werden wieder Folien gesammelt.",
+  "Slide PDF: the lecture window is out of sight (on another desktop, behind a full-screen app, or minimized), so {0} has stopped drawing it — no slides can be collected until it's back in view. Transcription continues.": "Folien-PDF: Das Vorlesungsfenster ist nicht sichtbar (auf einem anderen Schreibtisch, hinter einer App im Vollbildmodus oder im Dock abgelegt), daher zeichnet {0} es nicht mehr – bis es wieder sichtbar ist, können keine Folien gesammelt werden. Die Transkription läuft weiter.",
+  "the app showing it": "die anzeigende App",
+  "To keep collecting slides while you work on another desktop, play the lecture video in Picture in Picture — in Chrome, right-click the video twice and choose it from the menu. That window stays visible on every desktop.": "Um weiter Folien zu sammeln, während Sie auf einem anderen Schreibtisch arbeiten, spielen Sie das Vorlesungsvideo im Bild-im-Bild-Modus ab – in Chrome klicken Sie zweimal mit der rechten Maustaste auf das Video und wählen ihn im Menü. Dieses Fenster bleibt auf allen Schreibtischen sichtbar.",
+  "Click Choose Window and pick the Picture in Picture window.": "Klicken Sie auf „Fenster auswählen“ und wählen Sie das Bild-im-Bild-Fenster.",
+  "More Languages": "Weitere Sprachen"
  }
 };

@@ -1,6 +1,11 @@
 // Mac: watches the lecture window for slides. The window is chosen in macOS's own picker, so the
 // app needs no screen-recording permission (macOS 14 may still want it for its picker: when no window
 // is chosen, the page shows how to allow it) and never sees anything else on the screen.
+//
+// macOS hands over the chosen window wherever it is — on another desktop, behind other windows — but the app showing
+// it stops drawing a window nobody can see (Chrome, Edge, Whale, Safari… on another desktop, in another app's full
+// screen, minimized): until it's back in view there is nothing new to capture. So the window is watched: when it's out
+// of sight the page says so (and how to keep slides coming: Picture in Picture stays on every desktop).
 
 #if os(macOS)
 import AppKit
@@ -14,6 +19,8 @@ final class ScreenSlides: NSObject, SCContentSharingPickerObserver, SCStreamOutp
     var onFrame: ((CGImage) -> Void)?
     /// Something to tell the user: (notice code, message).
     var onNote: ((String, String) -> Void)?
+    /// The lecture window left the screen or came back: (visible, seconds it was out of sight, the app it belongs to).
+    var onSight: ((Bool, Double, String?) -> Void)?
 
     private var stream: SCStream?
     private var timer: Timer?
@@ -74,6 +81,7 @@ final class ScreenSlides: NSObject, SCContentSharingPickerObserver, SCStreamOutp
     func stop() {
         guard active else { return }
         active = false
+        unwatch()
         pickWait?.invalidate(); pickWait = nil
         fake?.cancel(); fake = nil
         timer?.invalidate(); timer = nil
@@ -125,6 +133,7 @@ final class ScreenSlides: NSObject, SCContentSharingPickerObserver, SCStreamOutp
             }
         }
         log("slides: watching \(cfg.width)×\(cfg.height)")
+        watch(filter)
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             MainActor.assumeIsolated { if let self, let img = self.latest.take() { self.onFrame?(img) } }
@@ -135,6 +144,7 @@ final class ScreenSlides: NSObject, SCContentSharingPickerObserver, SCStreamOutp
     private var fake: Task<Void, Never>?
     private func playFake(_ url: URL) {
         log("slides: watching a test video \(url.lastPathComponent)")
+        watch(nil)                                                       // LECTURE_TEST_WATCH_WINDOW: a window to watch
         fake = Task { [weak self] in
             let asset = AVURLAsset(url: url)
             guard let duration = try? await asset.load(.duration).seconds, duration > 0 else { return }
@@ -174,6 +184,92 @@ final class ScreenSlides: NSObject, SCContentSharingPickerObserver, SCStreamOutp
                 }
             }
         }
+    }
+
+    // MARK: in sight
+
+    private var watched: CGWindowID?
+    private var watchedApp: String?
+    private var sightTimer: Timer?
+    private var spaceWatch: NSObjectProtocol?
+    private var outSince: Date?
+    private var toldOut = false
+    /// A quick look at another desktop says nothing (Chrome itself waits a second before it stops drawing).
+    private static let sightGrace = env["LECTURE_TEST_SIGHT_GRACE"].flatMap(Double.init) ?? 3
+
+    /// Watches the chosen window (a display needs no watching: it shows whatever is on it). macOS 15.2+ names the
+    /// picked window; before that, it's the one window of another app with the picked size (none or several: not watched).
+    private func watch(_ filter: SCContentFilter?) {
+        unwatch()
+        var id = env["LECTURE_TEST_WATCH_WINDOW"].flatMap { UInt32($0) }
+        if id == nil, let filter, filter.style == .window {
+            if #available(macOS 15.2, *) { id = filter.includedWindows.first?.windowID }
+            if id == nil { id = Self.window(at: filter.contentRect) }
+        }
+        guard let id else { log("slides: not watched for sight (\(filter.map { $0.style == .display ? "a display" : "window unknown" } ?? "test"))"); return }
+        watched = id
+        watchedApp = Self.owner(of: id)
+        log("slides: watching window \(id) (\(watchedApp ?? "?")) for sight")
+        sightTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated { self?.checkSight() }
+        }
+        spaceWatch = NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.activeSpaceDidChangeNotification,
+                                                                       object: nil, queue: .main) { [weak self] _ in
+            MainActor.assumeIsolated { self?.checkSight() }
+        }
+    }
+
+    /// The watch ends (another window was picked, or the capture stopped): a page told "out of sight" hears that it's
+    /// over (0 s: nothing came back, so nothing to report).
+    private func unwatch() {
+        sightTimer?.invalidate(); sightTimer = nil
+        if let o = spaceWatch { NSWorkspace.shared.notificationCenter.removeObserver(o); spaceWatch = nil }
+        if toldOut { onSight?(true, 0, watchedApp) }
+        watched = nil; watchedApp = nil; outSince = nil; toldOut = false
+    }
+
+    private func checkSight() {
+        guard active, let id = watched else { return }
+        if !Self.onScreen(id) {
+            if outSince == nil { outSince = Date(); log("slides: window \(id) out of sight") }
+            if !toldOut, let since = outSince, Date().timeIntervalSince(since) >= Self.sightGrace {
+                toldOut = true
+                onSight?(false, Date().timeIntervalSince(since), watchedApp)
+            }
+        } else if let since = outSince {
+            let secs = Date().timeIntervalSince(since)
+            log("slides: window \(id) back in sight after \(Int(secs)) s")
+            if toldOut { onSight?(true, secs, watchedApp) }
+            outSince = nil; toldOut = false
+        }
+    }
+
+    static func windowInfo(_ id: CGWindowID) -> [String: Any]? {
+        (CGWindowListCopyWindowInfo([.optionIncludingWindow], id) as? [[String: Any]])?.first
+    }
+    /// The app a window belongs to ("Google Chrome") — also while it's minimized or on another desktop.
+    static func owner(of id: CGWindowID) -> String? {
+        if let name = windowInfo(id)?[kCGWindowOwnerName as String] as? String { return name }
+        let all = CGWindowListCopyWindowInfo([.optionAll], kCGNullWindowID) as? [[String: Any]] ?? []
+        return all.first { ($0[kCGWindowNumber as String] as? NSNumber)?.uint32Value == id }?[kCGWindowOwnerName as String] as? String
+    }
+    /// On the screen now — behind other windows still counts: not on another desktop or in another app's full screen,
+    /// not minimized, its app not hidden (macOS then lists it as off screen, or not at all).
+    static func onScreen(_ id: CGWindowID) -> Bool { windowInfo(id)?[kCGWindowIsOnscreen as String] as? Bool ?? false }
+    /// macOS 14.2–15.1 (the filter doesn't name its window, but its frame is the window's): the on-screen window of
+    /// another app at that frame — or, failing that, the one with that size; nil when none or several.
+    static func window(at frame: CGRect) -> CGWindowID? {
+        let me = ProcessInfo.processInfo.processIdentifier
+        let list = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]] ?? []
+        let mine = list.compactMap { w -> (CGWindowID, CGRect)? in
+            guard (w[kCGWindowLayer as String] as? Int) == 0, (w[kCGWindowOwnerPID as String] as? Int32) != me,
+                  let b = w[kCGWindowBounds as String] as? [String: Double], let n = w[kCGWindowNumber as String] as? NSNumber else { return nil }
+            return (CGWindowID(n.uint32Value), CGRect(x: b["X"] ?? 0, y: b["Y"] ?? 0, width: b["Width"] ?? 0, height: b["Height"] ?? 0))
+        }
+        let near = { (a: CGFloat, b: CGFloat) in abs(a - b) < 2 }
+        let sized = mine.filter { near($0.1.width, frame.width) && near($0.1.height, frame.height) }
+        let placed = sized.filter { near($0.1.minX, frame.minX) && near($0.1.minY, frame.minY) }
+        return placed.count == 1 ? placed[0].0 : sized.count == 1 ? sized[0].0 : nil
     }
 
     // MARK: picker

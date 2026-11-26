@@ -1695,6 +1695,7 @@
   // taken flashes like a screenshot and flies into the page count.
   const live = {
     timer: 0, img: "", next: "", decoding: false, cam: null, clean: null, ar: 16 / 10, count: 0, seen: { cam: false, clean: false },
+    out: false, outApp: "",           // the lecture window is out of sight: its app isn't drawing it (the last frame stays)
     mode: (() => { try { return localStorage.getItem("liveView") === "text" ? "text" : "screen"; } catch (e) { return "screen"; } })(),
     views: () => [$("stage"), $("campv")],
     show(ev) {
@@ -1733,7 +1734,7 @@
       clearTimeout(this.timer);
       body.classList.remove("live-on", "view-screen", "view-text");
       for (const v of this.views()) { v.querySelector(".lv-frame > img").removeAttribute("src"); v.classList.remove("clean", "finding", "cam", "paused"); }
-      this.img = ""; this.cam = this.clean = null; this.seen = { cam: false, clean: false };
+      this.img = ""; this.cam = this.clean = null; this.seen = { cam: false, clean: false }; this.out = false;
       if (end) this.count = 0;
     },
     setMode(m, save = true) {
@@ -1786,11 +1787,12 @@
     paint() {
       const on = state.cleanCapture !== false, clean = on && this.clean, lock = clean && !this.seen.clean;
       const paused = state.rec === "recording" && state.paused;
+      const out = this.out && state.rec === "recording" && !paused;
       for (const v of this.views()) {
         v.classList.toggle("clean", !!clean);
         v.classList.toggle("finding", on && !this.clean);
         v.classList.toggle("cam", !!this.cam);
-        v.classList.toggle("paused", paused);
+        v.classList.toggle("paused", paused || out);
         const cc = v.querySelector(".cc-box"), cb = v.querySelector(".cam-box");
         const place = (el, r) => Object.assign(el.style, { left: `${r[0] * 100}%`, top: `${r[1] * 100}%`, width: `${r[2] * 100}%`, height: `${r[3] * 100}%` });
         if (clean) {
@@ -1808,13 +1810,15 @@
         }
         v.querySelector(".lv-cc").checked = on;
         const st = v.querySelector(".lv-state");
-        if (st) st.innerHTML = paused ? L("일시정지 중", "Paused") : !on ? L("창 전체를 담는 중", "Capturing the whole window")
+        if (st) st.innerHTML = paused ? L("일시정지 중", "Paused") : out ? L("강의 창이 보이지 않음", "Lecture window out of sight") : !on ? L("창 전체를 담는 중", "Capturing the whole window")
                                    : `<i></i>${clean ? L("슬라이드만 담는 중", "Capturing the slide only") : L("슬라이드 영역을 찾는 중", "Finding the slide area")}`;
         const pg = this.count ? `<span class="full">${L(`PDF ${this.count}쪽`, `PDF · ${nEN(this.count, "page")}`)}</span><span class="short">${L(`PDF ${this.count}쪽`, `PDF ${this.count}`)}</span>` : "";
         if (v.querySelector(".lv-pages").innerHTML !== pg) v.querySelector(".lv-pages").innerHTML = pg;
       }
       this.fitBar();
       const cap = (paused ? L("<b>일시정지 중</b>계속하면 다시 슬라이드를 담습니다.", "<b>Paused</b>Slides are taken again when you resume.")
+                       : out ? L("<b>강의 창이 보이지 않음</b>다른 데스크탑에 있거나 최소화된 창은 그 앱이 그리지 않아서 담을 것이 없습니다. 창이 다시 보이면 이어서 모읍니다.",
+                                 "<b>Lecture window out of sight</b>A window on another desktop or minimized isn't drawn by its app, so there's nothing to capture. Slides continue once it's back in view.")
                        : !on ? L("<b>창 전체를 담는 중</b>깔끔하게 담기를 켜면 슬라이드만 PDF에 담습니다.", "<b>Capturing the whole window</b>Turn on Clean Capture to keep only the slide in the PDF.")
                        : clean ? L("<b>슬라이드만 담는 중</b>빨간 테두리 안만 PDF에 담고, 주소창·플레이어·검은 여백은 뺍니다.", "<b>Capturing the slide only</b>Only what's inside the red frame goes into the PDF — no browser bar, player or black borders.")
                        : L("<b>슬라이드 영역을 찾는 중</b>슬라이드가 넘어가면 어디가 슬라이드인지 알아봅니다.", "<b>Finding the slide area</b>When the slide turns, the app learns where the slide is."))
@@ -1871,6 +1875,20 @@
   }
   addEventListener("resize", () => live.layout());
   const IOS = window.__PLATFORM__ === "ios" || (!native && /[?&]ios\b/.test(location.search));
+  /// The Mac app: its own Settings window and macOS menus (the globe, 다른 언어, a recording's ⋯) instead of the page's.
+  const MAC = !!native && window.__PLATFORM__ === "mac";
+  const menuPicks = new Map();
+  let menuSeq = 0;
+  /** A macOS menu at `anchor` (a button): items [{title, value, on, disabled, symbol, submenu} | {type: "separator"} |
+   *  {type: "header", title}]; `pick` gets the chosen value, or null when it closed without a choice. Each request has
+   *  its token, so the answer goes to the request whose menu was shown (one asked for while a menu is up comes back
+   *  "dropped" and does nothing). */
+  function nativeMenu(kind, anchor, items, opts, pick) {
+    const r = anchor.getBoundingClientRect(), token = ++menuSeq;
+    menuPicks.set(token, pick);
+    anchor.setAttribute("aria-expanded", "true");
+    send("menu", { kind, items, x: r.left, y: r.top, w: r.width, h: r.height, token, ...opts });
+  }
   const DEVICE = window.__DEVICE__ || L("아이폰", "iPhone");
   const HAS_LIBRARY = !native || !!window.__LIBRARY__;     // v2 apps (and the browser demo)
   body.classList.toggle("ios", IOS);
@@ -2025,6 +2043,26 @@
         "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”."),
       reopenStep(),
     ]);
+  }
+  /// 슬라이드 PDF while the lecture window is out of sight (another desktop, a full-screen app, minimized): the app showing
+  /// it stops drawing it (Chrome, Safari… — macOS still hands the window over), so no slide can be taken; and how to keep
+  /// slides coming elsewhere. `secs` > 0: it's back after that long.
+  function sightNotice(app, secs) {
+    const who = app || L("강의 창을 띄운 앱", "the app showing it");
+    notice(secs > 0 ? L(`슬라이드 PDF: 강의 창이 ${span(secs)} 동안 보이지 않아서 그동안의 슬라이드는 담지 못했습니다. 지금은 다시 모으고 있습니다.`,
+                        `Slide PDF: the lecture window was out of sight for ${span(secs)}, so slides from that time couldn't be collected. Collecting again now.`)
+                    : L(`슬라이드 PDF: 강의 창이 화면에 보이지 않아서(다른 데스크탑·전체 화면 앱·최소화) ${who}에서 창을 그리지 않고 있습니다. 창이 다시 보일 때까지 슬라이드를 담을 수 없습니다. 받아쓰기는 계속됩니다.`,
+                        `Slide PDF: the lecture window is out of sight (on another desktop, behind a full-screen app, or minimized), so ${who} has stopped drawing it — no slides can be collected until it's back in view. Transcription continues.`),
+      [[L("창 다시 고르기", "Choose Window"), () => send("pickWindow")]], "slides_hidden", [
+        L("다른 데스크탑에서 일하는 동안에도 슬라이드를 모으려면 강의 영상을 PIP 모드(화면 속 화면)로 띄우십시오 — Chrome에서는 영상을 두 번 연달아 오른쪽 클릭하면 나오는 메뉴에 있습니다. PIP 창은 모든 데스크탑에서 보입니다.",
+          "To keep collecting slides while you work on another desktop, play the lecture video in Picture in Picture — in Chrome, right-click the video twice and choose it from the menu. That window stays visible on every desktop."),
+        L("‘창 다시 고르기’를 누르고 그 PIP 창을 고르십시오.", "Click Choose Window and pick the Picture in Picture window."),
+      ]);
+  }
+  /** "40 seconds", "4 minutes" — how long it was. */
+  function span(secs) {
+    const s = Math.max(1, Math.round(secs || 0)), m = Math.round(s / 60);
+    return s < 90 ? L(`${s}초`, nEN(s, "second")) : L(`${m}분`, nEN(m, "minute"));
   }
   function showSoundNotice() {
     if (!soundNotice || state.rec !== "recording") { soundNotice = null; return; }
@@ -2413,6 +2451,24 @@
   // ---------- one recording's menu (⋯ or right-click): 열기 · 이름 변경 · 공유 · Finder에서 보기 · 삭제
   const rowMenu = { s: null, anchor: null };
   function openRowMenu(s, anchor, x, y) {
+    if (MAC) {                                        // a macOS menu at the ⋯ (or where the row was right-clicked)
+      return nativeMenu("row", anchor, [
+        { title: L("열기", "Open"), value: "open", symbol: "doc.text" },
+        { title: L("이름 변경…", "Rename…"), value: "rename", symbol: "pencil" },
+        { title: L("공유…", "Share…"), value: "share", symbol: "square.and.arrow.up" },
+        { title: L("Finder에서 보기", "Show in Finder"), value: "reveal", symbol: "folder" },
+        { type: "separator" },
+        { title: L("삭제", "Delete"), value: "delete", symbol: "trash" },
+      ], x != null ? { at: [x, y], id: s.id } : { id: s.id }, (v) => {
+        if (!v) return;
+        if (anchor.isConnected) anchor.focus({ preventScroll: true });   // a dialog it opens returns the keyboard here
+        if (v === "open") openSession(s.id);
+        else if (v === "rename") openRename(s);
+        else if (v === "share") { const r = anchor.getBoundingClientRect(); send("share", { id: s.id, x: r.left, y: r.top, w: r.width, h: r.height }); }
+        else if (v === "reveal") send("revealSession", { id: s.id });
+        else if (v === "delete") askDelete(s.id, displayName(s));
+      });
+    }
     closeRowMenu();
     rowMenu.s = s; rowMenu.anchor = anchor;
     $("rmReveal").hidden = IOS;
@@ -2959,6 +3015,7 @@
 
   /** 설정, scrolled to 음성 인식 (the engines). */
   function openEngines() {
+    if (MAC) return openSettings("speech");
     openSettings();
     const to = () => {
       const sc = $("settings").querySelector(".sheet-body"), g = $("setEngines").closest(".set-group") || $("setEngines");
@@ -2966,10 +3023,11 @@
     };
     setTimeout(to, 300);
   }
-  function openSettings() {
+  function openSettings(tab) {
     closeMenus();
     if (dialog.saved) return;                         // a dialog is waiting for an answer
     closeRowMenu();
+    if (MAC) { send("nativeSettings", { tab: typeof tab === "string" ? tab : null }); return; }   // the Settings window
     renderSettings();
     $("settings").classList.add("show");
     $("setBack").focus({ preventScroll: true });      // the keyboard goes with it (not left in a title being edited behind)
@@ -3214,6 +3272,10 @@
         d.textContent = L("일시정지 후 이어서 받아 적습니다", "Resumed after a pause");
         $("transcript").appendChild(d);
         if (state.follow) scrollToEnd();
+        if (live.out && $("sl").checked && state.mode === "live") {     // went out of sight while paused
+          if ($("notice").classList.contains("show") && ["no_input", "no_audio"].includes(noticeCode)) soundNotice = soundEv;
+          sightNotice(live.outApp, 0);
+        }
       }
       if (state.rec === "recording") setStatus(recStatus());
       refreshControls();
@@ -3234,7 +3296,26 @@
       }] : null);
     },
     slidePreview(ev) {
-      if (state.rec === "recording" && $("sl").checked && ev.img) live.show(ev);
+      if (state.rec !== "recording" || !$("sl").checked || !ev.img) return;
+      if (live.out) { live.wait(); return; }                           // out of sight: the last good frame stays
+      live.show(ev);
+    },
+    /// the lecture window left the screen (another desktop, a full-screen app, minimized) or came back after `secs`
+    slidesSight(ev) {
+      const up = $("notice").classList.contains("show");
+      live.out = !ev.visible;
+      live.outApp = ev.app || "";
+      live.paint();
+      if (ev.visible && !(ev.secs >= 1)) {                             // not watched any more (another window, the end)
+        if (up && noticeCode === "slides_hidden") { $("notice").classList.remove("show"); showSoundNotice(); }
+        return;
+      }
+      if (state.rec !== "recording" || state.mode !== "live" || !$("sl").checked || state.paused) return;
+      if (!ev.visible) {
+        if (up && ["no_input", "no_audio"].includes(noticeCode)) soundNotice = soundEv;   // back after the guide
+        sightNotice(ev.app, 0);
+      } else if (noticeCode === "slides_hidden" && up) sightNotice(ev.app, ev.secs);
+      else toast(L(`슬라이드를 다시 모읍니다 — 강의 창이 ${span(ev.secs)} 동안 보이지 않았습니다.`, `Collecting slides again — the lecture window was out of sight for ${span(ev.secs)}.`), 5200);
     },
     seg: upsertSeg,
     progress(ev) {
@@ -3312,6 +3393,7 @@
         if (ev.code !== "slides_on") slidesOn = false;                 // the window closed / the capture failed
         if (ev.code === "slides_on") {
           slidesOn = true;
+          if (live.out) { live.out = false; live.paint(); }             // a window chosen (the Picture in Picture one, say)
           if (noticeCode.startsWith("slides_")) $("notice").classList.remove("show");   // a window was chosen
           showSoundNotice();
         }
@@ -3365,7 +3447,15 @@
         pendingKwToast = false;
         toast(ev.keywords.length ? L(`중요 단어 ${ev.keywords.length}개 저장됨`, `${ev.keywords.length} key words saved`) : L("중요 단어를 모두 삭제했습니다.", "All key words deleted."));
       }
-      if (typeof ev.slides === "boolean") $("sl").checked = ev.slides;
+      if (typeof ev.slides === "boolean") {
+        const was = $("sl").checked;
+        $("sl").checked = ev.slides;
+        if (was && !ev.slides) {                                       // turned off elsewhere (the Mac's Settings window)
+          live.hide(false);
+          slidesOn = false;
+          if (noticeCode.startsWith("slides_")) { $("notice").classList.remove("show"); showSoundNotice(); }
+        }
+      }
       if (PDF_INFO[ev.pdfLayout]) { state.pdfLayout = ev.pdfLayout; if (isOpen("settings")) renderSettings(); }
       if (typeof ev.cleanCapture === "boolean") { state.cleanCapture = ev.cleanCapture; $("setClean").checked = ev.cleanCapture; live.paint(); }
       if (typeof ev.language === "string" && ev.language) setLang(ev.language);
@@ -3392,6 +3482,14 @@
       $("setStorage").textContent = `${L(`${ev.count || 0}개`, nEN(ev.count || 0, "recording"))} · ${OTHER ? (mb >= 1000 ? size(mb / 1000, "GB", 1) : size(Math.round(mb), "MB")) : mb >= 1000 ? (mb / 1000).toFixed(1) + "GB" : Math.round(mb) + "MB"}${IOS ? L(" · 파일 앱에서 볼 수 있습니다", " · Viewable in the Files app") : ev.folder ? " · " + folderLabel(ev.folder) : ""}`;
     },
     openSettings() { if (!isOpen("legal")) openSettings(); },
+    openSlideDemo() { if (!legalPending()) openSlideDemo(); },
+    /// a macOS menu closed: what was chosen (null: nothing)
+    menuPick(ev) {
+      for (const a of [$("langBtn"), $("langMore"), ...document.querySelectorAll('.srow-more[aria-expanded="true"]')]) a.setAttribute("aria-expanded", "false");
+      const pick = menuPicks.get(ev.token);
+      menuPicks.delete(ev.token);
+      if (pick && !ev.dropped) pick(ev.value == null ? null : ev.value);
+    },
     openLegal() { if (!legalPending()) openLegal(false); },
     bye() {},
   };
@@ -3505,6 +3603,12 @@
     if (focusBack) $("langBtn").focus();
   }
   $("langBtn").onclick = () => {
+    if (MAC) {                                        // a macOS menu: the 12 languages, then the Settings window's
+      return nativeMenu("uiLanguage", $("langBtn"),
+        [...LANGS.map(([v, name]) => ({ title: name, value: v, on: v === LANG })), { type: "separator" },
+         { title: L("언어 설정…", "Language Settings…"), value: "@settings" }], {},
+        (v) => (v === "@settings" ? openSettings("general") : v && switchLanguage(v)));
+    }
     if (!langMenu.hidden) return closeLangMenu(true);
     langMenu.hidden = false;
     $("langBtn").setAttribute("aria-expanded", "true");
@@ -3777,7 +3881,31 @@
     $("langMore").setAttribute("aria-expanded", "false");
     if (focusBack) $("langMore").focus();
   }
-  $("langMore").onclick = () => (lectMenu.hidden ? openLectMenu() : closeLectMenu(true));
+  $("langMore").onclick = () => (MAC ? lectureMenu() : lectMenu.hidden ? openLectMenu() : closeLectMenu(true));
+  /** Mac: 다른 언어 as a macOS menu above the switch — the languages on this Mac, then those that download their
+   *  model the first time (choosing one asks first, with its size). */
+  function lectureMenu() {
+    if (!lect.list.length) { toast(L("음성 인식이 준비되면 고를 수 있습니다.", "You can choose once speech recognition is ready.")); return; }
+    const quick = lectQuick(), cur = state.lang || "ko", coll = new Intl.Collator(LANG);
+    const rows = lect.list.filter((l) => !quick.includes(l.id)).map((l) => ({ ...l, name: lectName(l.id) }))
+      .sort((a, b) => coll.compare(a.name, b.name));
+    // at hand: the languages on this Mac, the app's own languages and the one chosen; every other one under 언어 더 보기
+    const near = (l) => l.installed !== false || LANGS.some(([v]) => v === l.id) || l.id === cur;
+    const here = rows.filter((l) => l.installed !== false), later = rows.filter((l) => l.installed === false && near(l));
+    const more = rows.filter((l) => !near(l));
+    const items = [];
+    const item = (l) => ({ title: l.name, value: l.id, on: l.id === cur });
+    if (here.length) { items.push({ type: "header", title: L("이 Mac에 있음", "On This Mac") }); here.forEach((l) => items.push(item(l))); }
+    const dl = rows.filter((l) => l.installed === false).map((l) => l.mb).filter((x) => x > 0), lo = Math.min(...dl), hi = Math.max(...dl);
+    if (later.length || more.length) {
+      if (items.length) items.push({ type: "separator" });
+      const range = dl.length ? (hi > lo ? `${modelSize(lo)}\u2013${modelSize(hi)}` : modelSize(lo)) : "";
+      items.push({ type: "header", title: range ? L(`내려받기 (약 ${range})`, `Download (about ${range})`) : L("내려받기", "Download") });
+      later.forEach((l) => items.push(item(l)));
+      if (more.length) items.push({ title: L("언어 더 보기", "More Languages"), submenu: more.map(item) });
+    }
+    nativeMenu("lecture", $("langMore"), items, { up: true }, (v) => v && chooseLang(v));
+  }
   lectFind.placeholder = L("언어 검색", "Search languages");
   lectFind.setAttribute("aria-label", lectFind.placeholder);
   lectList.setAttribute("aria-label", L("다른 강의 언어", "Other lecture languages"));

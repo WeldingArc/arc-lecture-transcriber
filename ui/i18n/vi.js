@@ -15,6 +15,12 @@
   },
   "recording": {
    "other": "{n} bản ghi"
+  },
+  "second": {
+   "other": "{n} giây"
+  },
+  "minute": {
+   "other": "{n} phút"
   }
  },
  "text": {
@@ -492,6 +498,34 @@
   "Click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording” › “System Audio Recording Only”.": "Bấm “Mở cài đặt quyền riêng tư” và bật Arc Lecture Transcriber (Arc 강의 받아쓰기) trong “Quyền riêng tư & Bảo mật” › “Bản ghi âm thanh hệ thống & màn hình” › “Chỉ bản ghi âm thanh hệ thống”.",
   "If this message keeps appearing while the video is playing:": "Nếu video đang phát mà thông báo này vẫn xuất hiện:",
   "No sound is coming in. If the lecture video has no sound, that's fine — its slides are still collected into the PDF. If it does have sound:": "Không có âm thanh nào đi vào. Nếu video bài giảng không có tiếng thì không sao — trang chiếu vẫn được gom vào PDF. Nếu video có tiếng:",
-  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”.": "Nếu vẫn không được, hãy bấm “Mở cài đặt quyền riêng tư” và bật Arc Lecture Transcriber (Arc 강의 받아쓰기) trong “Quyền riêng tư & Bảo mật” › “Bản ghi âm thanh hệ thống & màn hình”."
+  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”.": "Nếu vẫn không được, hãy bấm “Mở cài đặt quyền riêng tư” và bật Arc Lecture Transcriber (Arc 강의 받아쓰기) trong “Quyền riêng tư & Bảo mật” › “Bản ghi âm thanh hệ thống & màn hình”.",
+  "Same as the Mac": "Giống máy Mac",
+  "Appearance": "Giao diện",
+  "App Icon": "Biểu tượng ứng dụng",
+  "Rose": "Hồng",
+  "Blue": "Xanh dương",
+  "Lavender": "Oải hương",
+  "Show": "Xem",
+  "Edit…": "Sửa…",
+  "In Use": "Đang dùng",
+  "Use": "Dùng",
+  "Location": "Vị trí",
+  "General": "Cài đặt chung",
+  "Storage": "Lưu trữ",
+  "About": "Giới thiệu",
+  "Language Settings…": "Cài đặt ngôn ngữ…",
+  "On This Mac": "Trên máy Mac này",
+  "Download (about {0})": "Tải về (khoảng {0})",
+  "Rename…": "Đổi tên…",
+  "Share…": "Chia sẻ…",
+  "Lecture window out of sight": "Không thấy cửa sổ bài giảng",
+  "<b>Lecture window out of sight</b>A window on another desktop or minimized isn't drawn by its app, so there's nothing to capture. Slides continue once it's back in view.": "<b>Không thấy cửa sổ bài giảng</b>Cửa sổ ở màn hình nền khác hoặc đã thu nhỏ sẽ không được ứng dụng của nó vẽ, nên không có gì để chụp. Trang chiếu sẽ tiếp tục khi cửa sổ hiện lại.",
+  "Collecting slides again — the lecture window was out of sight for {0}.": "Đang gom lại trang chiếu — cửa sổ bài giảng đã không hiển thị trong {0}.",
+  "Slide PDF: the lecture window was out of sight for {0}, so slides from that time couldn't be collected. Collecting again now.": "PDF trang chiếu: cửa sổ bài giảng đã không hiển thị trong {0} nên không gom được trang chiếu của khoảng thời gian đó. Giờ đã gom lại.",
+  "Slide PDF: the lecture window is out of sight (on another desktop, behind a full-screen app, or minimized), so {0} has stopped drawing it — no slides can be collected until it's back in view. Transcription continues.": "PDF trang chiếu: cửa sổ bài giảng đang không hiển thị (ở màn hình nền khác, sau một ứng dụng toàn màn hình hoặc đã thu nhỏ) nên {0} đã ngừng vẽ nó — không thể gom trang chiếu cho đến khi cửa sổ hiện lại. Việc chép lại vẫn tiếp tục.",
+  "the app showing it": "ứng dụng đang hiển thị nó",
+  "To keep collecting slides while you work on another desktop, play the lecture video in Picture in Picture — in Chrome, right-click the video twice and choose it from the menu. That window stays visible on every desktop.": "Để vẫn gom được trang chiếu khi bạn làm việc ở màn hình nền khác, hãy phát video bài giảng ở chế độ hình trong hình — trong Chrome, bấm chuột phải hai lần vào video rồi chọn trong menu. Cửa sổ đó hiển thị trên mọi màn hình nền.",
+  "Click Choose Window and pick the Picture in Picture window.": "Bấm “Chọn cửa sổ” và chọn cửa sổ hình trong hình.",
+  "More Languages": "Thêm ngôn ngữ"
  }
 };

@@ -19,6 +19,14 @@
   "recording": {
    "one": "{n} gravação",
    "other": "{n} gravações"
+  },
+  "second": {
+   "one": "{n} segundo",
+   "other": "{n} segundos"
+  },
+  "minute": {
+   "one": "{n} minuto",
+   "other": "{n} minutos"
   }
  },
  "text": {
@@ -496,6 +504,34 @@
   "Click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording” › “System Audio Recording Only”.": "Clique em “Abrir Ajustes de Privacidade” e ative o Arc Lecture Transcriber (Arc 강의 받아쓰기) em “Privacidade e Segurança” › “Gravação do Áudio do Sistema e da Tela” › “Apenas Gravação do Áudio do Sistema”.",
   "If this message keeps appearing while the video is playing:": "Se esta mensagem continuar aparecendo com o vídeo em reprodução:",
   "No sound is coming in. If the lecture video has no sound, that's fine — its slides are still collected into the PDF. If it does have sound:": "Nenhum som está chegando. Se o vídeo da aula não tiver som, tudo bem — os slides continuam sendo reunidos no PDF. Se tiver som:",
-  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”.": "Se não funcionar, clique em “Abrir Ajustes de Privacidade” e ative o Arc Lecture Transcriber (Arc 강의 받아쓰기) em “Privacidade e Segurança” › “Gravação do Áudio do Sistema e da Tela”."
+  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”.": "Se não funcionar, clique em “Abrir Ajustes de Privacidade” e ative o Arc Lecture Transcriber (Arc 강의 받아쓰기) em “Privacidade e Segurança” › “Gravação do Áudio do Sistema e da Tela”.",
+  "Same as the Mac": "Igual ao Mac",
+  "Appearance": "Aparência",
+  "App Icon": "Ícone do App",
+  "Rose": "Rosa",
+  "Blue": "Azul",
+  "Lavender": "Lavanda",
+  "Show": "Mostrar",
+  "Edit…": "Editar…",
+  "In Use": "Em Uso",
+  "Use": "Usar",
+  "Location": "Local",
+  "General": "Geral",
+  "Storage": "Armazenamento",
+  "About": "Sobre",
+  "Language Settings…": "Ajustes de Idioma…",
+  "On This Mac": "Neste Mac",
+  "Download (about {0})": "Download (cerca de {0})",
+  "Rename…": "Renomear…",
+  "Share…": "Compartilhar…",
+  "Lecture window out of sight": "Janela da aula fora de vista",
+  "<b>Lecture window out of sight</b>A window on another desktop or minimized isn't drawn by its app, so there's nothing to capture. Slides continue once it's back in view.": "<b>Janela da aula fora de vista</b>Uma janela em outra mesa ou minimizada não é desenhada pelo app, então não há nada para capturar. Os slides continuam assim que ela voltar a ficar visível.",
+  "Collecting slides again — the lecture window was out of sight for {0}.": "Reunindo slides de novo — a janela da aula ficou fora de vista por {0}.",
+  "Slide PDF: the lecture window was out of sight for {0}, so slides from that time couldn't be collected. Collecting again now.": "PDF de Slides: a janela da aula ficou fora de vista por {0}, então os slides desse período não puderam ser reunidos. Eles já estão sendo reunidos de novo.",
+  "Slide PDF: the lecture window is out of sight (on another desktop, behind a full-screen app, or minimized), so {0} has stopped drawing it — no slides can be collected until it's back in view. Transcription continues.": "PDF de Slides: a janela da aula está fora de vista (em outra mesa, atrás de um app em tela cheia ou minimizada), então {0} parou de desenhá-la — nenhum slide pode ser reunido até que ela volte a ficar visível. A transcrição continua.",
+  "the app showing it": "o app que a mostra",
+  "To keep collecting slides while you work on another desktop, play the lecture video in Picture in Picture — in Chrome, right-click the video twice and choose it from the menu. That window stays visible on every desktop.": "Para continuar reunindo slides enquanto você trabalha em outra mesa, reproduza o vídeo da aula em Picture in Picture — no Chrome, clique com o botão direito duas vezes no vídeo e escolha a opção no menu. Essa janela fica visível em todas as mesas.",
+  "Click Choose Window and pick the Picture in Picture window.": "Clique em “Escolher Janela” e escolha a janela do Picture in Picture.",
+  "More Languages": "Mais Idiomas"
  }
 };

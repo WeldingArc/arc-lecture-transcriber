@@ -13,8 +13,8 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
-VERSION="${VERSION:-2.7.4}"
-BUILD_NUMBER="${BUILD_NUMBER:-274}"
+VERSION="${VERSION:-2.8.0}"
+BUILD_NUMBER="${BUILD_NUMBER:-280}"
 SIGN_ID="${SIGN_ID:--}"
 ENTITLEMENTS="${ENTITLEMENTS:-$ROOT/app/LectureScribe.entitlements}"
 OUT="${OUT:-$ROOT/build/v2}"
@@ -38,7 +38,8 @@ step "compile"
 if ! swiftc -O -swift-version 5 -target arm64-apple-macos14.2 -file-prefix-map "$ROOT/=./" "${WHISPER[@]}" \
        -o "$OUT/LectureScribe" "$ROOT"/app/Audio.swift "$ROOT"/app/Recognizer.swift "$ROOT"/app/ClassicRecognizer.swift "$ROOT"/app/Engine.swift \
        "$ROOT"/app/Library.swift "$ROOT"/app/Player.swift "$ROOT"/app/Bridge.swift "$ROOT"/app/Slides.swift "$ROOT"/app/CameraFinder.swift \
-       "$ROOT"/app/ScreenSlides.swift "$ROOT"/app/Whisper.swift "$ROOT"/app/main.swift 2> "$OUT/swiftc.log"; then
+       "$ROOT"/app/ScreenSlides.swift "$ROOT"/app/SettingsWindow.swift "$ROOT"/app/PopUpMenus.swift "$ROOT"/app/Whisper.swift \
+       "$ROOT"/app/main.swift 2> "$OUT/swiftc.log"; then
   cat "$OUT/swiftc.log"; exit 1
 fi
 grep -E "warning:" "$OUT/swiftc.log" || true

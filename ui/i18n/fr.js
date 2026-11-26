@@ -19,6 +19,14 @@
   "recording": {
    "one": "{n} enregistrement",
    "other": "{n} enregistrements"
+  },
+  "second": {
+   "one": "{n} seconde",
+   "other": "{n} secondes"
+  },
+  "minute": {
+   "one": "{n} minute",
+   "other": "{n} minutes"
   }
  },
  "text": {
@@ -496,6 +504,34 @@
   "Click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording” › “System Audio Recording Only”.": "Cliquez sur « Ouvrir les réglages de confidentialité » et activez Arc Lecture Transcriber (Arc 강의 받아쓰기) dans « Confidentialité et sécurité » › « Enregistrement de l’écran et des sons du système » › « Enregistrement des sons du système uniquement ».",
   "If this message keeps appearing while the video is playing:": "Si ce message continue de s’afficher alors que la vidéo est en lecture :",
   "No sound is coming in. If the lecture video has no sound, that's fine — its slides are still collected into the PDF. If it does have sound:": "Aucun son n’arrive. Si la vidéo du cours n’a pas de son, ce n’est pas grave : ses diapositives sont toujours rassemblées dans le PDF. Si elle a du son :",
-  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”.": "Si cela ne fonctionne pas, cliquez sur « Ouvrir les réglages de confidentialité » et activez Arc Lecture Transcriber (Arc 강의 받아쓰기) dans « Confidentialité et sécurité » › « Enregistrement de l’écran et des sons du système »."
+  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”.": "Si cela ne fonctionne pas, cliquez sur « Ouvrir les réglages de confidentialité » et activez Arc Lecture Transcriber (Arc 강의 받아쓰기) dans « Confidentialité et sécurité » › « Enregistrement de l’écran et des sons du système ».",
+  "Same as the Mac": "Comme sur le Mac",
+  "Appearance": "Apparence",
+  "App Icon": "Icône de l’app",
+  "Rose": "Rose",
+  "Blue": "Bleu",
+  "Lavender": "Lavande",
+  "Show": "Afficher",
+  "Edit…": "Modifier…",
+  "In Use": "Utilisé",
+  "Use": "Utiliser",
+  "Location": "Emplacement",
+  "General": "Général",
+  "Storage": "Stockage",
+  "About": "À propos",
+  "Language Settings…": "Réglages de langue…",
+  "On This Mac": "Sur ce Mac",
+  "Download (about {0})": "Téléchargement (environ {0})",
+  "Rename…": "Renommer…",
+  "Share…": "Partager…",
+  "Lecture window out of sight": "Fenêtre du cours hors de vue",
+  "<b>Lecture window out of sight</b>A window on another desktop or minimized isn't drawn by its app, so there's nothing to capture. Slides continue once it's back in view.": "<b>Fenêtre du cours hors de vue</b>Une app ne dessine pas une fenêtre placée sur un autre bureau ou réduite dans le Dock : il n’y a donc rien à capturer. Les diapositives reprennent dès qu’elle est de nouveau visible.",
+  "Collecting slides again — the lecture window was out of sight for {0}.": "Les diapositives sont de nouveau rassemblées : la fenêtre du cours est restée hors de vue pendant {0}.",
+  "Slide PDF: the lecture window was out of sight for {0}, so slides from that time couldn't be collected. Collecting again now.": "PDF des diapositives : la fenêtre du cours est restée hors de vue pendant {0}, les diapositives de ce moment n’ont donc pas pu être rassemblées. La collecte a repris.",
+  "Slide PDF: the lecture window is out of sight (on another desktop, behind a full-screen app, or minimized), so {0} has stopped drawing it — no slides can be collected until it's back in view. Transcription continues.": "PDF des diapositives : la fenêtre du cours est hors de vue (sur un autre bureau, derrière une app en plein écran ou réduite dans le Dock), {0} a donc cessé de la dessiner : aucune diapositive ne peut être rassemblée tant qu’elle n’est pas de nouveau visible. La transcription continue.",
+  "the app showing it": "l’app qui l’affiche",
+  "To keep collecting slides while you work on another desktop, play the lecture video in Picture in Picture — in Chrome, right-click the video twice and choose it from the menu. That window stays visible on every desktop.": "Pour continuer à rassembler les diapositives pendant que vous travaillez sur un autre bureau, lisez la vidéo du cours en mode image dans l’image : dans Chrome, faites deux clics droits sur la vidéo et choisissez-le dans le menu. Cette fenêtre reste visible sur tous les bureaux.",
+  "Click Choose Window and pick the Picture in Picture window.": "Cliquez sur « Choisir la fenêtre » et choisissez la fenêtre image dans l’image.",
+  "More Languages": "Autres langues"
  }
 };

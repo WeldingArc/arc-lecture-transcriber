@@ -19,6 +19,14 @@
   "recording": {
    "one": "{n} registrazione",
    "other": "{n} registrazioni"
+  },
+  "second": {
+   "one": "{n} secondo",
+   "other": "{n} secondi"
+  },
+  "minute": {
+   "one": "{n} minuto",
+   "other": "{n} minuti"
   }
  },
  "text": {
@@ -496,6 +504,34 @@
   "Click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording” › “System Audio Recording Only”.": "Fai clic su “Apri Privacy e sicurezza” e attiva Arc Lecture Transcriber (Arc 강의 받아쓰기) in “Privacy e sicurezza” › “Registrazione schermo e audio di sistema” › “Solo registrazione audio di sistema”.",
   "If this message keeps appearing while the video is playing:": "Se questo messaggio continua a comparire mentre il video è in riproduzione:",
   "No sound is coming in. If the lecture video has no sound, that's fine — its slides are still collected into the PDF. If it does have sound:": "Non arriva alcun suono. Se il video della lezione non ha audio, va bene: le sue slide vengono comunque raccolte nel PDF. Se ha l’audio:",
-  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”.": "Se non funziona, fai clic su “Apri Privacy e sicurezza” e attiva Arc Lecture Transcriber (Arc 강의 받아쓰기) in “Privacy e sicurezza” › “Registrazione schermo e audio di sistema”."
+  "If that doesn't work, click Open Privacy Settings and turn on Arc Lecture Transcriber (Arc 강의 받아쓰기) under “Privacy & Security” › “Screen & System Audio Recording”.": "Se non funziona, fai clic su “Apri Privacy e sicurezza” e attiva Arc Lecture Transcriber (Arc 강의 받아쓰기) in “Privacy e sicurezza” › “Registrazione schermo e audio di sistema”.",
+  "Same as the Mac": "Come sul Mac",
+  "Appearance": "Aspetto",
+  "App Icon": "Icona dell’app",
+  "Rose": "Rosa",
+  "Blue": "Blu",
+  "Lavender": "Lavanda",
+  "Show": "Mostra",
+  "Edit…": "Modifica…",
+  "In Use": "In uso",
+  "Use": "Usa",
+  "Location": "Posizione",
+  "General": "Generali",
+  "Storage": "Archiviazione",
+  "About": "Info",
+  "Language Settings…": "Impostazioni lingua…",
+  "On This Mac": "Su questo Mac",
+  "Download (about {0})": "Download (circa {0})",
+  "Rename…": "Rinomina…",
+  "Share…": "Condividi…",
+  "Lecture window out of sight": "Finestra della lezione non visibile",
+  "<b>Lecture window out of sight</b>A window on another desktop or minimized isn't drawn by its app, so there's nothing to capture. Slides continue once it's back in view.": "<b>Finestra della lezione non visibile</b>Una finestra su un’altra scrivania o contratta nel Dock non viene disegnata dalla sua app, quindi non c’è niente da acquisire. Le slide riprendono appena torna visibile.",
+  "Collecting slides again — the lecture window was out of sight for {0}.": "La raccolta delle slide è ripresa: la finestra della lezione non è stata visibile per {0}.",
+  "Slide PDF: the lecture window was out of sight for {0}, so slides from that time couldn't be collected. Collecting again now.": "PDF delle slide: la finestra della lezione non è stata visibile per {0}, quindi le slide di quel momento non sono state raccolte. Ora la raccolta è ripresa.",
+  "Slide PDF: the lecture window is out of sight (on another desktop, behind a full-screen app, or minimized), so {0} has stopped drawing it — no slides can be collected until it's back in view. Transcription continues.": "PDF delle slide: la finestra della lezione non è visibile (su un’altra scrivania, dietro un’app a tutto schermo o contratta nel Dock), quindi {0} ha smesso di disegnarla: finché non torna visibile non si possono raccogliere slide. La trascrizione continua.",
+  "the app showing it": "l’app che la mostra",
+  "To keep collecting slides while you work on another desktop, play the lecture video in Picture in Picture — in Chrome, right-click the video twice and choose it from the menu. That window stays visible on every desktop.": "Per continuare a raccogliere slide mentre lavori su un’altra scrivania, riproduci il video della lezione in picture in picture: in Chrome, fai clic destro due volte sul video e sceglilo dal menu. Quella finestra resta visibile su tutte le scrivanie.",
+  "Click Choose Window and pick the Picture in Picture window.": "Fai clic su “Scegli finestra” e scegli la finestra picture in picture.",
+  "More Languages": "Altre lingue"
  }
 };

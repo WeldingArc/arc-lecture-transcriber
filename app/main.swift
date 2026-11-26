@@ -17,12 +17,14 @@ let repoURL = "https://github.com/WeldingArc/arc-lecture-transcriber"
 let sandboxed = env["APP_SANDBOX_CONTAINER_ID"] != nil
 
 @MainActor
-final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKScriptMessageHandler, WKNavigationDelegate, Platform {
+final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKScriptMessageHandler, WKNavigationDelegate, Platform, SettingsHost {
     var window: NSWindow!
     var web: WKWebView!
     var bridge: Bridge!
     var engine: Engine { bridge.engine }
     let screenSlides = ScreenSlides()
+    let settingsWindow = SettingsWindowController()
+    let menus = PopUpMenus()
     var pageReady = false
     var queued: [String] = []
     var activity: NSObjectProtocol?
@@ -35,8 +37,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
         bridge.platform = self
         screenSlides.onFrame = { [weak self] img in self?.bridge.engine.session?.addSlideFrame(img) }
         screenSlides.onNote = { [weak self] code, msg in self?.toPage(["ev": "notice", "code": code, "msg": msg]) }
+        screenSlides.onSight = { [weak self] visible, secs, app in       // the lecture window left the screen, or came back
+            self?.toPage(["ev": "slidesSight", "visible": visible, "secs": secs, "app": app ?? NSNull()])
+        }
+        settingsWindow.store.host = self
+        settingsWindow.store.receive(bridge.engine.settings.event)
+        menus.reply = { [weak self] ev in self?.toPage(ev) }
         setAppIcon(bridge.engine.settings.icon)
         buildWindow()
+        menus.web = web
+        settingsWindow.applyAppearance(window.appearance)                 // the theme's look from the start (the page tells changes)
         NSApp.activate()
         log("app started \(appVersion) · \(appLanguage.value) (\(AppLanguage.chosen == nil ? "system" : "chosen"))")
         if AppLanguage.pinClearedNow, Bundle.main.preferredLocalizations.first?.hasPrefix(appLanguage.value) == false {
@@ -71,6 +81,40 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
                            ("LECTURE_TEST_PAUSE", "pauseRec"), ("LECTURE_TEST_RESUME", "resumeRec")] {   // 계속 as the page presses
             guard let s = Double(env[key] ?? "") else { continue }                        // them (시작 with 슬라이드 PDF if on)
             Timer.scheduledTimer(withTimeInterval: s, repeats: false) { [weak self] _ in MainActor.assumeIsolated { self?.bridge.handle(cmd, [:]) } }
+        }
+        if let spec = env["LECTURE_TEST_SETTINGS"] {         // tests: "general@2,speech@5" — the Settings window at that tab
+            for step in spec.split(separator: ",") {            // then; app.log gets its window number (for screencapture -l)
+                let parts = step.split(separator: "@")
+                guard parts.count == 2, let t = Double(parts[1]) else { continue }
+                let tab = String(parts[0])
+                Timer.scheduledTimer(withTimeInterval: t, repeats: false) { [weak self] _ in
+                    MainActor.assumeIsolated {
+                        guard let self else { return }
+                        if tab == "close" { NSApp.windows.first { $0 !== self.window && $0.isVisible && $0.styleMask.contains(.titled) }?.close(); return }
+                        self.settingsWindow.show(tab: tab)
+                        let w = NSApp.windows.first { $0 !== self.window && $0.isVisible && $0.styleMask.contains(.titled) }
+                        log("test settings: \(tab) window \(w?.windowNumber ?? -1) \(Int(w?.frame.width ?? 0))x\(Int(w?.frame.height ?? 0)) title \(w?.title ?? "-")")
+                    }
+                }
+            }
+        }
+        if let path = env["LECTURE_TEST_STORE_FILE"],              // tests: events for the Settings window only (a download
+           let d = FileManager.default.contents(atPath: path),       // in progress, say), 2 s after the start
+           let evs = try? JSONSerialization.jsonObject(with: d) as? [[String: Any]] {
+            Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { [weak self] _ in
+                MainActor.assumeIsolated { evs.forEach { self?.settingsWindow.store.receive($0) } }
+            }
+        }
+        if let spec = env["LECTURE_TEST_SET"] {               // tests: "theme=light@2,timestamps=false@4" — a setting changed
+            for step in spec.split(separator: ",") {            // then, as the Settings window changes it
+                let parts = step.split(separator: "@"), kv = parts.first?.split(separator: "=") ?? []
+                guard parts.count == 2, kv.count == 2, let t = Double(parts[1]) else { continue }
+                let key = String(kv[0]), raw = String(kv[1])
+                let value: Any = raw == "true" ? true as Any : raw == "false" ? false as Any : raw as Any
+                Timer.scheduledTimer(withTimeInterval: t, repeats: false) { [weak self] _ in
+                    MainActor.assumeIsolated { self?.settingsWindow.store.set(key, value); log("test set \(key)=\(raw)") }
+                }
+            }
         }
         if let spec = env["LECTURE_TEST_EVAL"] {             // tests: "4:<js>|9:<js>" — the page does this then (a click, a
             for step in spec.components(separatedBy: "|") {         // choice), and app.log gets what it returned
@@ -212,6 +256,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
 
     func toPage(_ ev: [String: Any]) {
         if (ev["ev"] as? String) == "rec", let st = ev["state"] as? String { setActivity(st != "idle") }
+        if let name = ev["ev"] as? String, ["settings", "engines", "rec", "storage"].contains(name) { settingsWindow.store.receive(ev) }
         guard JSONSerialization.isValidJSONObject(ev),                       // NaN/inf would raise, not throw
               let data = try? JSONSerialization.data(withJSONObject: ev), let json = String(data: data, encoding: .utf8) else {
             log("dropped an event the page can't read: \(ev["ev"] ?? "?")"); return
@@ -280,6 +325,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
     /// 설정 › 테마: dark or light pins the window (and the page's colour scheme); 시스템 follows macOS.
     func applyAppearance(dark: Bool, system: Bool) {
         window.appearance = system ? nil : NSAppearance(named: dark ? .darkAqua : .aqua)
+        settingsWindow.applyAppearance(window.appearance)
         window.backgroundColor = dark ? NSColor(srgbRed: 13 / 255, green: 18 / 255, blue: 32 / 255, alpha: 1)
                                       : NSColor(srgbRed: 244 / 255, green: 241 / 255, blue: 234 / 255, alpha: 1)
     }
@@ -316,6 +362,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
     /// 설정 › 언어 (or the globe on the start screen): menus and page in the new language; the engine replays its state.
     func languageChanged() {
         buildMenu()
+        settingsWindow.languageChanged()
         window.title = L("Arc 강의 받아쓰기", "Arc Lecture Transcriber")
         web.configuration.userContentController.removeAllUserScripts()
         web.configuration.userContentController.addUserScript(pageScript())
@@ -327,6 +374,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
                     "msg": L("메뉴 막대의 앱 이름과 열기 창 같은 시스템 화면은 앱을 다시 열면 바뀝니다.", "The app's name in the menu bar and system windows such as Open change the next time you open the app.")])
         }
     }
+    func showSettings(tab: String?) { settingsWindow.show(tab: tab) }
+    func popUpMenu(_ body: [String: Any]) { menus.show(body) }
+
+    // MARK: SettingsHost (the Settings window)
+
+    func settingsChange(_ body: [String: Any]) { bridge.handle("settings", body) }
+    func settingsCommand(_ cmd: String, _ body: [String: Any]) { bridge.handle(cmd, body) }
+    /// Something the page shows (이용 안내, 슬라이드 PDF 작동 방식): in the main window, brought forward.
+    func settingsShowInMain(_ ev: String) {
+        window.deminiaturize(nil)
+        window.makeKeyAndOrderFront(nil)
+        toPage(["ev": ev])
+    }
+
     func startScreenSlides() { screenSlides.start() }
     func stopScreenSlides() { screenSlides.stop() }
     func pickWindow() { screenSlides.pickAgain() }
