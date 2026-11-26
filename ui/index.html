@@ -1695,7 +1695,7 @@
   // taken flashes like a screenshot and flies into the page count.
   const live = {
     timer: 0, img: "", next: "", decoding: false, cam: null, clean: null, ar: 16 / 10, count: 0, seen: { cam: false, clean: false },
-    out: false,                       // the lecture window is out of sight: its app isn't drawing it (the last frame stays)
+    out: false, outApp: "",           // the lecture window is out of sight: its app isn't drawing it (the last frame stays)
     mode: (() => { try { return localStorage.getItem("liveView") === "text" ? "text" : "screen"; } catch (e) { return "screen"; } })(),
     views: () => [$("stage"), $("campv")],
     show(ev) {
@@ -1878,13 +1878,15 @@
   /// The Mac app: its own Settings window and macOS menus (the globe, 다른 언어, a recording's ⋯) instead of the page's.
   const MAC = !!native && window.__PLATFORM__ === "mac";
   const menuPicks = {};
-  /** A macOS menu at `anchor` (a button): items [{title, value, on, disabled, symbol} | {type: "separator"} |
-   *  {type: "header", title}]; `pick` gets the chosen value, or null when it closed without a choice. */
+  let menuSeq = 0;
+  /** A macOS menu at `anchor` (a button): items [{title, value, on, disabled, symbol, submenu} | {type: "separator"} |
+   *  {type: "header", title}]; `pick` gets the chosen value, or null when it closed without a choice. Each request has
+   *  its token: an answer goes only to the request whose menu it was (a second click before the menu shows is dropped). */
   function nativeMenu(kind, anchor, items, opts, pick) {
-    const r = anchor.getBoundingClientRect();
-    menuPicks[kind] = pick;
+    const r = anchor.getBoundingClientRect(), token = ++menuSeq;
+    menuPicks[kind] = { token, pick };
     anchor.setAttribute("aria-expanded", "true");
-    send("menu", { kind, items, x: r.left, y: r.top, w: r.width, h: r.height, ...opts });
+    send("menu", { kind, items, x: r.left, y: r.top, w: r.width, h: r.height, token, ...opts });
   }
   const DEVICE = window.__DEVICE__ || L("아이폰", "iPhone");
   const HAS_LIBRARY = !native || !!window.__LIBRARY__;     // v2 apps (and the browser demo)
@@ -3269,6 +3271,7 @@
         d.textContent = L("일시정지 후 이어서 받아 적습니다", "Resumed after a pause");
         $("transcript").appendChild(d);
         if (state.follow) scrollToEnd();
+        if (live.out && $("sl").checked && state.mode === "live") sightNotice(live.outApp, 0);   // went out of sight while paused
       }
       if (state.rec === "recording") setStatus(recStatus());
       refreshControls();
@@ -3295,11 +3298,19 @@
     },
     /// the lecture window left the screen (another desktop, a full-screen app, minimized) or came back after `secs`
     slidesSight(ev) {
+      const up = $("notice").classList.contains("show");
       live.out = !ev.visible;
+      live.outApp = ev.app || "";
       live.paint();
+      if (ev.visible && !(ev.secs >= 1)) {                             // not watched any more (another window, the end)
+        if (up && noticeCode === "slides_hidden") { $("notice").classList.remove("show"); showSoundNotice(); }
+        return;
+      }
       if (state.rec !== "recording" || state.mode !== "live" || !$("sl").checked || state.paused) return;
-      if (!ev.visible) sightNotice(ev.app, 0);
-      else if (noticeCode === "slides_hidden" && $("notice").classList.contains("show")) sightNotice(ev.app, ev.secs);
+      if (!ev.visible) {
+        if (up && ["no_input", "no_audio"].includes(noticeCode)) soundNotice = soundEv;   // back after the guide
+        sightNotice(ev.app, 0);
+      } else if (noticeCode === "slides_hidden" && up) sightNotice(ev.app, ev.secs);
       else toast(L(`슬라이드를 다시 모읍니다 — 강의 창이 ${span(ev.secs)} 동안 보이지 않았습니다.`, `Collecting slides again — the lecture window was out of sight for ${span(ev.secs)}.`), 5200);
     },
     seg: upsertSeg,
@@ -3378,6 +3389,7 @@
         if (ev.code !== "slides_on") slidesOn = false;                 // the window closed / the capture failed
         if (ev.code === "slides_on") {
           slidesOn = true;
+          if (live.out) { live.out = false; live.paint(); }             // a window chosen (the Picture in Picture one, say)
           if (noticeCode.startsWith("slides_")) $("notice").classList.remove("show");   // a window was chosen
           showSoundNotice();
         }
@@ -3469,11 +3481,11 @@
     openSlideDemo() { if (!legalPending()) openSlideDemo(); },
     /// a macOS menu closed: what was chosen (null: nothing)
     menuPick(ev) {
-      const pick = menuPicks[ev.kind];
+      for (const a of [$("langBtn"), $("langMore"), ...document.querySelectorAll('.srow-more[aria-expanded="true"]')]) a.setAttribute("aria-expanded", "false");
+      const p = menuPicks[ev.kind];
+      if (!p || p.token !== ev.token) return;                         // not the menu that was asked for last
       delete menuPicks[ev.kind];
-      const anchor = { uiLanguage: $("langBtn"), lecture: $("langMore") }[ev.kind] || document.querySelector('.srow-more[aria-expanded="true"]');
-      if (anchor) anchor.setAttribute("aria-expanded", "false");
-      if (pick) pick(ev.value == null ? null : ev.value);
+      p.pick(ev.value == null ? null : ev.value);
     },
     openLegal() { if (!legalPending()) openLegal(false); },
     bye() {},

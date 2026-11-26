@@ -113,13 +113,17 @@ final class AppLanguage: @unchecked Sendable {
         let p = String(t.split(separator: "-").first ?? "")
         return ["ko", "en", "ja", "es", "fr", "de", "it", "vi", "ru"].contains(p) ? p : nil
     }
-    /// Until someone chooses: the Mac's (iPhone's) own language — the first of its preferred languages, and English when
-    /// the app doesn't speak that one. Read from the system's own list: a language chosen in the app is also this
-    /// process's preferred language until it quits.
-    static var system: String {
-        let mac = UserDefaults.standard.persistentDomain(forName: UserDefaults.globalDomain)?["AppleLanguages"] as? [String]
-        return supported(mac?.first ?? Locale.preferredLanguages.first) ?? "en"
+    /// Until someone chooses: the Mac's (iPhone's) own language — the first of its preferred languages (a language set for
+    /// this app in System Settings comes first), and English when the app doesn't speak that one.
+    static var system: String { supported(Locale.preferredLanguages.first) ?? "en" }
+    /// The Mac's language for every app (the system's own list): what 설정 › 언어 › Mac과 같게 leads to once the app's own
+    /// choice is gone — this process still has that choice as its preferred language until it quits.
+    static var mac: String {
+        let list = UserDefaults.standard.persistentDomain(forName: UserDefaults.globalDomain)?["AppleLanguages"] as? [String]
+        return supported(list?.first ?? Locale.preferredLanguages.first) ?? "en"
     }
+    /// What Mac과 같게 means now: the language the app follows when nothing is chosen in it.
+    static var followed: String { chosen == nil ? appLanguage.value : mac }
     /// The language chosen in the app (설정 › 언어, the start screen's globe), nil until someone chooses.
     static var chosen: String? { uiLanguages.first { $0 == UserDefaults.standard.string(forKey: "uiLanguageChoice") } }
     /// Someone chose: the app keeps this language, and macOS's own words in it — the menu bar's app name, the Open
@@ -133,9 +137,10 @@ final class AppLanguage: @unchecked Sendable {
     /// menu bar and its windows too, from the next launch).
     static func followSystem() {
         let d = UserDefaults.standard
-        d.removeObject(forKey: "uiLanguageChoice")
-        d.removeObject(forKey: "AppleLanguages")
-        appLanguage.value = system
+        guard d.string(forKey: "uiLanguageChoice") != nil else { return }      // nothing chosen: it follows already (a
+        d.removeObject(forKey: "uiLanguageChoice")                             // language set for the app in System
+        d.removeObject(forKey: "AppleLanguages")                               // Settings stays); the app's own pin goes
+        appLanguage.value = mac
     }
     /// This launch cleared 2.4.0's pin: macOS already read it, so its own words (Edit menu extras, Open panel) are in
     /// the pinned language until the next launch.

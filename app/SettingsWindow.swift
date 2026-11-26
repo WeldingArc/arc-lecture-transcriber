@@ -202,7 +202,7 @@ private struct GeneralTab: View {
         Form {
             Section {
                 Picker(L("언어", "Language"), selection: language) {
-                    Text(L("Mac과 같게", "Same as the Mac") + " (\(uiLanguageNames.first { $0.0 == AppLanguage.system }?.1 ?? "English"))").tag("system")
+                    Text(L("Mac과 같게", "Same as the Mac") + " (\(uiLanguageNames.first { $0.0 == AppLanguage.followed }?.1 ?? "English"))").tag("system")
                     Divider()
                     ForEach(uiLanguageNames, id: \.0) { Text($0.1).tag($0.0) }
                 }
@@ -621,6 +621,7 @@ final class SettingsWindowController: NSObject, NSWindowDelegate {
         let win = NSWindow(contentViewController: tabs)
         win.styleMask = [.titled, .closable]
         win.toolbarStyle = .preference
+        win.collectionBehavior = [.fullScreenAuxiliary]                // opens over the main window in full screen
         win.isReleasedWhenClosed = false
         win.appearance = appearance
         win.delegate = self
@@ -632,8 +633,13 @@ final class SettingsWindowController: NSObject, NSWindowDelegate {
         self.tabs = tabs
     }
 
-    /// The app's language changed: the window again in it (made anew where it was, at the same tab).
+    /// The app's language changed: the window again in it (made anew where it was, at the same tab) — once the event that
+    /// changed it is over: the menu that chose it lives in the window being replaced.
     func languageChanged() {
+        DispatchQueue.main.async { [weak self] in self?.rebuild() }
+    }
+
+    private func rebuild() {
         store.lang = appLanguage.value
         store.chosen = AppLanguage.chosen != nil
         guard let old = window, let tabs else { return }

@@ -36,7 +36,7 @@ final class PopUpMenus: NSObject {
         chosen = nil
         open = true
         current = menu
-        let kind = body["kind"] as? String ?? "", id = body["id"] ?? NSNull()
+        let kind = body["kind"] as? String ?? "", id = body["id"] ?? NSNull(), token = body["token"] ?? NSNull()
         if let spec = env["LECTURE_TEST_MENU"], let colon = spec.firstIndex(of: ":"), let t = Double(spec[..<colon]) {
             let want = String(spec[spec.index(after: colon)...])                     // tests: "2.5:en" — after 2.5 s, what the
             let timer = Timer(timeInterval: t, repeats: false) { [weak self] _ in     // menu lists (app.log), then that choice
@@ -64,7 +64,7 @@ final class PopUpMenus: NSObject {
             self.current = nil
             let value = self.chosen
             self.chosen = nil
-            self.reply?(["ev": "menuPick", "kind": kind, "value": value ?? NSNull(), "id": id])
+            self.reply?(["ev": "menuPick", "kind": kind, "value": value ?? NSNull(), "id": id, "token": token])
         }
     }
 

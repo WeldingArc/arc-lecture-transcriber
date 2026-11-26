@@ -208,7 +208,7 @@ final class ScreenSlides: NSObject, SCContentSharingPickerObserver, SCStreamOutp
         }
         guard let id else { log("slides: not watched for sight (\(filter.map { $0.style == .display ? "a display" : "window unknown" } ?? "test"))"); return }
         watched = id
-        watchedApp = Self.windowInfo(id)?[kCGWindowOwnerName as String] as? String
+        watchedApp = Self.owner(of: id)
         log("slides: watching window \(id) (\(watchedApp ?? "?")) for sight")
         sightTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             MainActor.assumeIsolated { self?.checkSight() }
@@ -219,9 +219,12 @@ final class ScreenSlides: NSObject, SCContentSharingPickerObserver, SCStreamOutp
         }
     }
 
+    /// The watch ends (another window was picked, or the capture stopped): a page told "out of sight" hears that it's
+    /// over (0 s: nothing came back, so nothing to report).
     private func unwatch() {
         sightTimer?.invalidate(); sightTimer = nil
         if let o = spaceWatch { NSWorkspace.shared.notificationCenter.removeObserver(o); spaceWatch = nil }
+        if toldOut { onSight?(true, 0, watchedApp) }
         watched = nil; watchedApp = nil; outSince = nil; toldOut = false
     }
 
@@ -243,6 +246,12 @@ final class ScreenSlides: NSObject, SCContentSharingPickerObserver, SCStreamOutp
 
     static func windowInfo(_ id: CGWindowID) -> [String: Any]? {
         (CGWindowListCopyWindowInfo([.optionIncludingWindow], id) as? [[String: Any]])?.first
+    }
+    /// The app a window belongs to ("Google Chrome") — also while it's minimized or on another desktop.
+    static func owner(of id: CGWindowID) -> String? {
+        if let name = windowInfo(id)?[kCGWindowOwnerName as String] as? String { return name }
+        let all = CGWindowListCopyWindowInfo([.optionAll], kCGNullWindowID) as? [[String: Any]] ?? []
+        return all.first { ($0[kCGWindowNumber as String] as? NSNumber)?.uint32Value == id }?[kCGWindowOwnerName as String] as? String
     }
     /// On the screen now — behind other windows still counts: not on another desktop or in another app's full screen,
     /// not minimized, its app not hidden (macOS then lists it as off screen, or not at all).
