@@ -204,7 +204,7 @@ final class ScreenSlides: NSObject, SCContentSharingPickerObserver, SCStreamOutp
         var id = env["LECTURE_TEST_WATCH_WINDOW"].flatMap { UInt32($0) }
         if id == nil, let filter, filter.style == .window {
             if #available(macOS 15.2, *) { id = filter.includedWindows.first?.windowID }
-            if id == nil { id = Self.window(sized: filter.contentRect.size) }
+            if id == nil { id = Self.window(at: filter.contentRect) }
         }
         guard let id else { log("slides: not watched for sight (\(filter.map { $0.style == .display ? "a display" : "window unknown" } ?? "test"))"); return }
         watched = id
@@ -247,16 +247,20 @@ final class ScreenSlides: NSObject, SCContentSharingPickerObserver, SCStreamOutp
     /// On the screen now — behind other windows still counts: not on another desktop or in another app's full screen,
     /// not minimized, its app not hidden (macOS then lists it as off screen, or not at all).
     static func onScreen(_ id: CGWindowID) -> Bool { windowInfo(id)?[kCGWindowIsOnscreen as String] as? Bool ?? false }
-    /// The one on-screen window of another app with this size (macOS 14.2–15.1), nil when none or several.
-    static func window(sized size: CGSize) -> CGWindowID? {
+    /// macOS 14.2–15.1 (the filter doesn't name its window, but its frame is the window's): the on-screen window of
+    /// another app at that frame — or, failing that, the one with that size; nil when none or several.
+    static func window(at frame: CGRect) -> CGWindowID? {
         let me = ProcessInfo.processInfo.processIdentifier
         let list = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]] ?? []
-        let hits = list.filter { w in
+        let mine = list.compactMap { w -> (CGWindowID, CGRect)? in
             guard (w[kCGWindowLayer as String] as? Int) == 0, (w[kCGWindowOwnerPID as String] as? Int32) != me,
-                  let b = w[kCGWindowBounds as String] as? [String: Double] else { return false }
-            return abs((b["Width"] ?? 0) - size.width) < 2 && abs((b["Height"] ?? 0) - size.height) < 2
+                  let b = w[kCGWindowBounds as String] as? [String: Double], let n = w[kCGWindowNumber as String] as? NSNumber else { return nil }
+            return (CGWindowID(n.uint32Value), CGRect(x: b["X"] ?? 0, y: b["Y"] ?? 0, width: b["Width"] ?? 0, height: b["Height"] ?? 0))
         }
-        return hits.count == 1 ? (hits[0][kCGWindowNumber as String] as? NSNumber).map { CGWindowID($0.uint32Value) } : nil
+        let near = { (a: CGFloat, b: CGFloat) in abs(a - b) < 2 }
+        let sized = mine.filter { near($0.1.width, frame.width) && near($0.1.height, frame.height) }
+        let placed = sized.filter { near($0.1.minX, frame.minX) && near($0.1.minY, frame.minY) }
+        return placed.count == 1 ? placed[0].0 : sized.count == 1 ? sized[0].0 : nil
     }
 
     // MARK: picker
